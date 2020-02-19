@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import clsx from 'clsx'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/styles'
 import NativeSelect from '@material-ui/core/NativeSelect'
-import { StateType, PaxesProps } from './types'
+import Typography from '@material-ui/core/Typography'
+import InputLabel from '@material-ui/core/InputLabel'
+import { PaxesValueType, PaxesProps } from './types'
 import Stepper from '../Stepper'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
@@ -15,6 +15,7 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
   const {
     className: classNameProp,
     classes = {},
+    title = 'Paxes selection',
     minAdults = 1,
     maxAdults = 4,
     minChildren = 0,
@@ -22,43 +23,50 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
     minChildrenAge = 0,
     maxChildrenAge = 12,
     onChange,
-    value: valueProp
+    value: valueProp = {
+      adults: 2,
+      children: 0
+    }
   } = props
 
-  const initialState: StateType = {
-    adults: minAdults,
-    children: minChildren,
-    childrenAges: [],
-    ...valueProp
+  const initialState: PaxesValueType = {
+    adults: valueProp.adults,
+    children: valueProp.children,
+    childrenAges: new Array(valueProp.children).fill(undefined)
   }
 
-  const [value, setValue] = React.useState<StateType>(initialState)
+  const [value, setValue] = React.useState<PaxesValueType>(initialState)
 
   useEffect(() => {
     onChange(value)
   }, [value])
 
-  const handleAdultsChange = (adults: number) => {
-    setValue((prevState: StateType) => ({
+  const handleAdultsChange = (n: number) => {
+    setValue((prevState: PaxesValueType) => ({
       ...prevState,
-      adults
+      adults: n
     }))
   }
 
-  const handleChildrenChange = (children: number) => {
-    setValue((prevState: StateType) => ({
+  const handleChildrenChange = (n: number) => {
+    setValue((prevState: PaxesValueType) => ({
       ...prevState,
-      children,
-      childrenAges: prevState.children < children
-        ? [...prevState.childrenAges, 0]
-        : prevState.childrenAges.filter((item, index) => index < children)
+      children: n,
+      childrenAges: prevState.children < n // @ts-ignore
+        // Expand childrenAges
+        ? prevState.childrenAges.concat(
+          new Array(n - prevState.childrenAges.length).fill(undefined)
+        )
+        // Cut childrenAges
+        : prevState.childrenAges.slice(0, n)
     }))
   }
 
   const handleChildrenAgeChange = (index: number, v: number | string) => {
-    setValue((prevState: StateType) => ({
+    setValue((prevState: PaxesValueType) => ({
       ...prevState,
-      childrenAges: prevState.childrenAges.map((item, key) => ((key !== index) ? item : +v))
+      childrenAges:
+        prevState?.childrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
     }))
   }
 
@@ -72,33 +80,46 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
     return items
   }
 
+  const allowedChildrenAges = getAllowedChildrenAges()
+
   const className = clsx(classNameProp, classes.root)
 
   return (
     <div className={className}>
-      <Stepper
-        className={classes.adults}
-        value={value.adults}
-        minValue={minAdults}
-        maxValue={maxAdults}
-        onChange={handleAdultsChange}
-      />
+      <Typography variant="subtitle1">{title}</Typography>
+      <div className={classes.adults}>
+        <InputLabel className={classes.adultsLabel}>Adults:</InputLabel>
+        <Stepper
+          className={`${classes.adultsStepper} ${classes.inputControl}`}
+          value={value.adults}
+          minValue={minAdults}
+          maxValue={maxAdults}
+          onChange={handleAdultsChange}
+        />
+      </div>
 
-      <Stepper
-        className={classes.children}
-        value={value.children}
-        minValue={minChildren}
-        maxValue={maxChildren}
-        onChange={handleChildrenChange}
-      />
+      <div className={classes.adults}>
+        <InputLabel className={classes.childrenLabel}>Children:</InputLabel>
+        <Stepper
+          className={`${classes.childrenStepper} ${classes.inputControl}`}
+          value={value.children}
+          minValue={minChildren}
+          maxValue={maxChildren}
+          onChange={handleChildrenChange}
+        />
+      </div>
 
-      <div className={classes.childrenAges}>
-        {value.childrenAges.map((_, i) => (
+      {value.childrenAges.map((age: number, i: number) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={`children${i}`}>
+          <InputLabel className={classes.adultsLabel}>{`Age children ${i+1}`}</InputLabel>
           <NativeSelect
-            key={`children${i}`}
+            className={`${classes.ageSelect} ${classes.inputControl}`}
+            value={age}
             onChange={(e: any) => handleChildrenAgeChange(i, e.target.value)}
           >
-            {getAllowedChildrenAges().map(option => (
+            <option> </option>
+            {allowedChildrenAges.map(option => (
               <option
                 key={option.value}
                 value={option.value}
@@ -107,8 +128,8 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
               </option>
             ))}
           </NativeSelect>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   )
 }

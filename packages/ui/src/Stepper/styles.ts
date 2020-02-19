@@ -18,6 +18,7 @@ export const defaultStyles = (theme: Theme) => {
       minHeight: 30,
       display: 'flex',
       border: `1px solid ${theme.palette.grey.A100}`,
+      boxSizing: 'border-box',
       justifyContent: 'center',
       textAlign: 'center',
       '& > * ': {
