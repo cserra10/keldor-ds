@@ -56,7 +56,15 @@ export const defaultStyles = (theme: Theme) => {
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'space-between'
-      }
+      },
+
+      border: `1px solid ${theme.palette.grey.A100}`,
+      padding: theme.spacing(1)
+    },
+
+    title: {
+      paddingBottom: theme.spacing(1),
+      borderBottom: `1px solid ${theme.palette.grey.A100}`
     },
 
     inputControl: {
@@ -65,7 +73,8 @@ export const defaultStyles = (theme: Theme) => {
     },
 
     ageSelect: {
-      textAlign: 'center'
+      textAlign: 'center',
+      margin: '0!important'
     }
   })
 

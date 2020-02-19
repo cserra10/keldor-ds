@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import Typography from '@material-ui/core/Typography'
 import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
 import { PaxesValueType, PaxesProps } from './types'
 import Stepper from '../Stepper'
 import { defaultStyles, themeStyles } from './styles'
@@ -26,19 +27,18 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
     value: valueProp = {
       adults: 2,
       children: 0
-    }
+    },
+    id
   } = props
 
-  const initialState: PaxesValueType = {
+  const [value, setValue] = React.useState<PaxesValueType>({
     adults: valueProp.adults,
     children: valueProp.children,
     childrenAges: new Array(valueProp.children).fill(undefined)
-  }
-
-  const [value, setValue] = React.useState<PaxesValueType>(initialState)
+  })
 
   useEffect(() => {
-    onChange(value)
+    if (onChange) onChange(value, id)
   }, [value])
 
   const handleAdultsChange = (n: number) => {
@@ -52,7 +52,7 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
     setValue((prevState: PaxesValueType) => ({
       ...prevState,
       children: n,
-      childrenAges: prevState.children < n // @ts-ignore
+      childrenAges: prevState.children < n
         // Expand childrenAges
         ? prevState.childrenAges.concat(
           new Array(n - prevState.childrenAges.length).fill(undefined)
@@ -86,9 +86,20 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
 
   return (
     <div className={className}>
-      <Typography variant="subtitle1">{title}</Typography>
-      <div className={classes.adults}>
-        <InputLabel className={classes.adultsLabel}>Adults:</InputLabel>
+      <Typography
+        className={classes.title}
+        variant="subtitle1"
+      >
+        {title}
+      </Typography>
+
+      <FormControl className={classes.adults}>
+        <InputLabel
+          className={classes.adultsLabel}
+          shrink
+        >
+          Adults:
+        </InputLabel>
         <Stepper
           className={`${classes.adultsStepper} ${classes.inputControl}`}
           value={value.adults}
@@ -96,10 +107,15 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
           maxValue={maxAdults}
           onChange={handleAdultsChange}
         />
-      </div>
+      </FormControl>
 
-      <div className={classes.adults}>
-        <InputLabel className={classes.childrenLabel}>Children:</InputLabel>
+      <FormControl className={classes.adults}>
+        <InputLabel
+          className={classes.childrenLabel}
+          shrink
+        >
+          Children:
+        </InputLabel>
         <Stepper
           className={`${classes.childrenStepper} ${classes.inputControl}`}
           value={value.children}
@@ -107,12 +123,17 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
           maxValue={maxChildren}
           onChange={handleChildrenChange}
         />
-      </div>
+      </FormControl>
 
       {value.childrenAges.map((age: number, i: number) => (
         // eslint-disable-next-line react/no-array-index-key
-        <div key={`children${i}`}>
-          <InputLabel className={classes.adultsLabel}>{`Age children ${i+1}`}</InputLabel>
+        <FormControl key={`children${i}`}>
+          <InputLabel
+            className={classes.adultsLabel}
+            shrink
+          >
+            {`Age children ${i+1}:`}
+          </InputLabel>
           <NativeSelect
             className={`${classes.ageSelect} ${classes.inputControl}`}
             value={age}
@@ -128,10 +149,10 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
               </option>
             ))}
           </NativeSelect>
-        </div>
+        </FormControl>
       ))}
     </div>
   )
 }
 
-export default withStyles(styles)(Paxes)
+export default memo(withStyles(styles)(Paxes))
