@@ -13,6 +13,9 @@ export const Default = () => {
     <Stepper
       value={value}
       onChange={setValue}
+      classes={{
+        root: 'foo'
+      }}
     />
   )
 }

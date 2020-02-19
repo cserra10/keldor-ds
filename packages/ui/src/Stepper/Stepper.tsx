@@ -5,15 +5,17 @@ import Box from '@material-ui/core/Box'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import RemoveIcon from '@material-ui/icons/Remove'
 import AddIcon from '@material-ui/icons/Add'
-import { makeStyles, createStyles } from '@material-ui/core'
-import defaultStyles, { ClassNamesAPI } from './styles'
+import { withStyles } from '@material-ui/core'
+import { defaultStyles, themeStyles } from './styles'
 import { StepperProps } from './types'
+import { combineStyles } from '../utils'
 
-export const useStyles = makeStyles(createStyles(defaultStyles))
+const combinedStyles = combineStyles(defaultStyles, themeStyles)
 
 const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => {
   const {
     className: classNameProp,
+    classes = {},
     value: valueProp = 0,
     minValue = 0,
     maxValue = 100,
@@ -38,7 +40,6 @@ const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => 
     onChange(value)
   }, [value])
 
-  const classes = useStyles() as ClassNamesAPI
   const className = clsx(classNameProp, classes.root)
 
   return (
@@ -68,4 +69,4 @@ const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => 
   )
 }
 
-export default memo(Stepper)
+export default withStyles(combinedStyles)(Stepper)

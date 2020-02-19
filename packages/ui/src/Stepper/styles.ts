@@ -11,9 +11,7 @@ export interface StylesAPI {
   decreaseButton: CSSProperties
 }
 
-export type ClassNamesAPI = Record<keyof StylesAPI, string>
-
-export default (theme: Theme) => {
+export const defaultStyles = (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
       width: 'fit-content',
@@ -33,6 +31,18 @@ export default (theme: Theme) => {
       },
       borderRight: `1px solid ${theme.palette.grey.A100}`,
       borderLeft: `1px solid ${theme.palette.grey.A100}`
+    }
+  })
+
+  return styles
+}
+
+export const themeStyles = (theme: Theme) => {
+  const styles = <StylesAPI> createStyles({
+    root: {
+    },
+
+    input: {
     }
   })
 
