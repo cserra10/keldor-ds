@@ -3,53 +3,59 @@ import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { RoomsProps, RoomsValueType } from './types'
-import { defaultStyles, themeStyles } from './styles'
-import { combineStyles } from '../utils'
+import { RoomsProps } from './types'
 import Paxes from '../Paxes'
 import { PaxesValueType } from '../Paxes/types'
+import { defaultStyles, themeStyles } from './styles'
+import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
-const Rooms: React.FunctionComponent<RoomsProps> = (props: RoomsProps) => {
-  const {
+const Rooms: React.FunctionComponent<RoomsProps> = (
+  {
     className: classNameProp,
     classes = {},
     title = 'Rooms',
     maxRooms = 4,
     onChange,
     PaxesProps = { value: { adults: 2, children: 0 } }
-  } = props
-
+  }: RoomsProps
+) => {
   const initialPaxes = {
+    id: String(+new Date()),
     adults: PaxesProps.value.adults,
     children: PaxesProps.value.children,
     childrenAges: new Array(PaxesProps.value.children).fill(undefined)
   }
 
-  const [value, setValue] = React.useState<Array<PaxesValueType>>([])
+  const [value, setValue] = React.useState<PaxesValueType[]>([initialPaxes])
 
   useEffect(() => {
-    console.log(value)
-    onChange(value)
+    if (onChange) onChange(value)
   }, [value])
 
   const addRoom = () => {
     const roomCount = value.length + 1
     if (roomCount <= maxRooms) {
-      setValue(prevState => [...prevState, ...[initialPaxes]])
+      setValue(prevState => prevState.concat(...[initialPaxes]))
     }
   }
 
   const deleteRoom = (index: number) => {
-
+    setValue(prevState => {
+      const temp = [...prevState]
+      temp.splice(index, 1)
+      return temp
+    })
   }
 
-  const updatePaxesInRoom = useCallback((paxes: PaxesValueType, roomId) => {
-    setValue(prevState => ({
-      ...prevState,
-      [roomId]: { ...paxes }
-    }))
+  const updatePaxesInRoom = useCallback((paxes: PaxesValueType) => {
+    setValue(prevState => {
+      const temp = [...prevState]
+      const i = temp.findIndex(item => item.id === paxes.id)
+      temp[i] = paxes
+      return temp
+    })
   }, [])
 
   const className = clsx(classNameProp, classes.root)
@@ -63,14 +69,14 @@ const Rooms: React.FunctionComponent<RoomsProps> = (props: RoomsProps) => {
         {title}
       </Typography>
 
-      {value.map((_, index: number) => (
+      {value.map((paxes, index: number) => (
         <div
           className={classes.paxesContainer}
-          key={index}
+          key={paxes.id}
         >
           <Paxes
-            id={index}
-            title={`Room ${index}`}
+            id={`${paxes.id}`}
+            title={`Room ${index + 1}`}
             onChange={updatePaxesInRoom}
           />
           <ButtonBase

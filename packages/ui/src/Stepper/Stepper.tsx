@@ -37,7 +37,7 @@ const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => 
   }
 
   useEffect(() => {
-    onChange(value)
+    if (onChange) onChange(value)
   }, [value])
 
   const className = clsx(classNameProp, classes.root)

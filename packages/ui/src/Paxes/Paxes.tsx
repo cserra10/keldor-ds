@@ -12,8 +12,8 @@ import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
-const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
-  const {
+const Paxes: React.FunctionComponent<PaxesProps> = (
+  {
     className: classNameProp,
     classes = {},
     title = 'Paxes selection',
@@ -28,17 +28,18 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
       adults: 2,
       children: 0
     },
-    id
-  } = props
-
+    id = String(+new Date())
+  }: PaxesProps
+) => {
   const [value, setValue] = React.useState<PaxesValueType>({
+    id,
     adults: valueProp.adults,
     children: valueProp.children,
     childrenAges: new Array(valueProp.children).fill(undefined)
   })
 
   useEffect(() => {
-    if (onChange) onChange(value, id)
+    if (onChange) onChange(value)
   }, [value])
 
   const handleAdultsChange = (n: number) => {

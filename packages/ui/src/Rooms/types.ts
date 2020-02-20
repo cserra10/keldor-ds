@@ -1,6 +1,4 @@
-import { PaxesProps, PaxesValueType } from '../Paxes/types'
-
-export type RoomsValueType = Array<PaxesValueType>
+import { PaxesProps } from '../Paxes/types'
 
 export type RoomsProps = {
   className?: string
@@ -8,5 +6,5 @@ export type RoomsProps = {
   title?: string
   maxRooms?: number
   PaxesProps?: PaxesProps,
-  onChange: (RoomsValueType: object) => void
+  onChange?: (RoomsValueType: object) => void
 }

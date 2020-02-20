@@ -1,4 +1,5 @@
 export type PaxesValueType = {
+  id?: string
   adults?: number
   children?: number
   childrenAges?: number[]
@@ -17,6 +18,6 @@ export type PaxesProps = {
   minChildrenAge?: number
   maxChildrenAge?: number
   value?: PaxesValueType
-  onChange: (value: PaxesValueType, id: number | string) => void
-  id: string | number
+  onChange?: (value: PaxesValueType) => void
+  id?: string
 }
