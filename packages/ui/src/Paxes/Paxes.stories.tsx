@@ -14,6 +14,7 @@ export const Default = () => {
         adults: 2
       }}
       onChange={action('onChange')}
+      onSubmit={action('onSubmit')}
     />
   )
 }

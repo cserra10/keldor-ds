@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import { RoomsProps } from './types'
 import Paxes from '../Paxes'
-import { PaxesValueType } from '../Paxes/types'
+import { PaxesDataType } from '../Paxes/types'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
 
@@ -29,7 +29,11 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     childrenAges: new Array(PaxesProps.value.children).fill(undefined)
   }
 
-  const [value, setValue] = React.useState<PaxesValueType[]>([initialPaxes])
+  const [value, setValue] = React.useState<PaxesDataType[]>([initialPaxes])
+
+  const validate = (data: PaxesDataType[]) => {
+
+  }
 
   const onOk = () => {
     if (onChange) {
@@ -55,7 +59,7 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     })
   }
 
-  const updatePaxesInRoom = useCallback((paxes: PaxesValueType) => {
+  const updatePaxesInRoom = useCallback((paxes: PaxesDataType) => {
     setValue(prevState => {
       const temp = [...prevState]
       const i = temp.findIndex(item => item.id === paxes.id)

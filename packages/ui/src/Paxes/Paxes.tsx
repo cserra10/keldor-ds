@@ -1,11 +1,12 @@
-import React, { useEffect, memo } from 'react'
+import React, {useEffect, memo, useState} from 'react'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import Typography from '@material-ui/core/Typography'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
-import { PaxesValueType, PaxesProps } from './types'
+import ButtonBase from '@material-ui/core/ButtonBase'
+import { PaxesDataType, PaxesProps } from './types'
 import Stepper from '../Stepper'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
@@ -24,6 +25,10 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
     minChildrenAge = 0,
     maxChildrenAge = 12,
     onChange,
+    onSubmit,
+    autoSubmit = false,
+    submitLabel = 'Apply',
+    showSubmit = true,
     value: valueProp = {
       adults: 2,
       children: 0
@@ -31,43 +36,77 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
     id = String(+new Date())
   }: PaxesProps
 ) => {
-  const [value, setValue] = React.useState<PaxesValueType>({
+  const [data, setData] = React.useState<PaxesDataType>({
     id,
-    adults: valueProp.adults,
-    children: valueProp.children,
-    childrenAges: new Array(valueProp.children).fill(undefined)
+    value: {
+      adults: valueProp.adults,
+      children: valueProp.children,
+      childrenAges: new Array(valueProp.children).fill(undefined)
+    },
+    submitted: false,
+    error: undefined,
+    count: 0
   })
 
+  const { value, submitted, error, count } = data
+
   useEffect(() => {
-    if (onChange) onChange(value)
+    if (onChange) {
+      onChange(value)
+
+      if (autoSubmit) onSubmit(data)
+    }
   }, [value])
 
-  const handleAdultsChange = (n: number) => {
-    setValue((prevState: PaxesValueType) => ({
+  const handleSubmit = () => {
+    const isValid = value.childrenAges.every(age => age >= 0)
+    setData((prevState: PaxesDataType) => ({
       ...prevState,
-      adults: n
+      submitted: true,
+      error: isValid ? undefined : { message: 'Enter child age' },
+      count: prevState.count + 1
+    }))
+  }
+
+  useEffect(() => {
+    if (onSubmit) onSubmit(data)
+  }, [count])
+
+  const handleAdultsChange = (n: number) => {
+    setData((prevState: PaxesDataType) => ({
+      ...prevState,
+      value: {
+        ...prevState.value,
+        adults: n
+      }
     }))
   }
 
   const handleChildrenChange = (n: number) => {
-    setValue((prevState: PaxesValueType) => ({
+    setData((prevState: PaxesDataType) => ({
       ...prevState,
-      children: n,
-      childrenAges: prevState.children < n
-        // Expand childrenAges
-        ? prevState.childrenAges.concat(
-          new Array(n - prevState.childrenAges.length).fill(undefined)
-        )
-        // Cut childrenAges
-        : prevState.childrenAges.slice(0, n)
+      value: {
+        ...prevState.value,
+        children: n,
+        childrenAges: prevState.value.children < n
+          // Expand childrenAges
+          ? prevState.value.childrenAges.concat(
+            new Array(n - prevState.value.childrenAges.length).fill(undefined)
+          )
+          // Cut childrenAges
+          : prevState.value.childrenAges.slice(0, n)
+      }
     }))
   }
 
   const handleChildrenAgeChange = (index: number, v: number | string) => {
-    setValue((prevState: PaxesValueType) => ({
+    setData((prevState: PaxesDataType) => ({
       ...prevState,
-      childrenAges:
-        prevState?.childrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
+      value: {
+        ...prevState.value,
+        childrenAges:
+          prevState.value.childrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
+      }
     }))
   }
 
@@ -103,7 +142,7 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
         </InputLabel>
         <Stepper
           className={`${classes.adultsStepper} ${classes.inputControl}`}
-          value={value.adults}
+          value={data.value.adults}
           minValue={minAdults}
           maxValue={maxAdults}
           onChange={handleAdultsChange}
@@ -119,39 +158,52 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
         </InputLabel>
         <Stepper
           className={`${classes.childrenStepper} ${classes.inputControl}`}
-          value={value.children}
+          value={data.value.children}
           minValue={minChildren}
           maxValue={maxChildren}
           onChange={handleChildrenChange}
         />
       </FormControl>
 
-      {value.childrenAges.map((age: number, i: number) => (
+      {data.value.childrenAges.map((age: number, i: number) => (
         // eslint-disable-next-line react/no-array-index-key
-        <FormControl key={`children${i}`}>
-          <InputLabel
-            className={classes.adultsLabel}
-            shrink
-          >
-            {`Age children ${i+1}:`}
-          </InputLabel>
-          <NativeSelect
-            className={`${classes.ageSelect} ${classes.inputControl}`}
-            value={age}
-            onChange={(e: any) => handleChildrenAgeChange(i, e.target.value)}
-          >
-            <option> </option>
-            {allowedChildrenAges.map(option => (
-              <option
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </option>
-            ))}
-          </NativeSelect>
-        </FormControl>
+        <div key={`children${i}`}>
+          <FormControl>
+            <InputLabel
+              className={classes.adultsLabel}
+              shrink
+            >
+              {`Age children ${i + 1}:`}
+            </InputLabel>
+            <NativeSelect
+              className={`${classes.ageSelect} ${classes.inputControl} ${submitted && error ? 'error' : ''}`}
+              value={age}
+              onChange={(e: any) => handleChildrenAgeChange(i, e.target.value)}
+            >
+              <option> </option>
+              {allowedChildrenAges.map(option => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </NativeSelect>
+          </FormControl>
+        </div>
       ))}
+
+      {error && <Typography>{error.message}</Typography>}
+
+      {showSubmit && (
+        <ButtonBase
+          className={classes.submitButton}
+          onClick={handleSubmit}
+        >
+          {submitLabel}
+        </ButtonBase>
+      )}
     </div>
   )
 }
