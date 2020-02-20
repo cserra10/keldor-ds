@@ -21,7 +21,7 @@ export const defaultStyles = (theme: Theme) => {
     },
 
     title: {
-      paddingBottom: theme.spacing(1)
+      paddingBottom: theme.spacing(0.5)
     },
 
     paxesContainer: {
@@ -37,7 +37,12 @@ export const defaultStyles = (theme: Theme) => {
 
     addRoomButton: {
       border: `1px solid ${theme.palette.grey.A100}`,
-      padding: theme.spacing(1)
+      padding: theme.spacing(0.5)
+    },
+
+    okButton: {
+      border: `1px solid ${theme.palette.grey.A100}`,
+      padding: theme.spacing(0.5)
     }
   })
 

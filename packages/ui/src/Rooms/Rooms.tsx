@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
@@ -18,7 +18,8 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     title = 'Rooms',
     maxRooms = 4,
     onChange,
-    PaxesProps = { value: { adults: 2, children: 0 } }
+    PaxesProps = { value: { adults: 2, children: 0 } },
+    okLabel = 'Apply'
   }: RoomsProps
 ) => {
   const initialPaxes = {
@@ -30,9 +31,11 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
 
   const [value, setValue] = React.useState<PaxesValueType[]>([initialPaxes])
 
-  useEffect(() => {
-    if (onChange) onChange(value)
-  }, [value])
+  const onOk = () => {
+    if (onChange) {
+      onChange(value)
+    }
+  }
 
   const addRoom = () => {
     const roomCount = value.length + 1
@@ -41,7 +44,10 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     }
   }
 
-  const deleteRoom = (index: number) => {
+  const deleteRoom = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    // @ts-ignore
+    const index = e.currentTarget.attributes['data-index']
     setValue(prevState => {
       const temp = [...prevState]
       temp.splice(index, 1)
@@ -79,9 +85,11 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
             title={`Room ${index + 1}`}
             onChange={updatePaxesInRoom}
           />
+
           <ButtonBase
             className={classes.deleteRoomButton}
-            onClick={() => deleteRoom(index)}
+            data-index={index}
+            onClick={deleteRoom}
           >
             Remove room
           </ButtonBase>
@@ -93,6 +101,13 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
         onClick={addRoom}
       >
         Add room
+      </ButtonBase>
+
+      <ButtonBase
+        className={classes.okButton}
+        onClick={onOk}
+      >
+        {okLabel}
       </ButtonBase>
     </div>
   )

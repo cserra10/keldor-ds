@@ -7,4 +7,5 @@ export type RoomsProps = {
   maxRooms?: number
   PaxesProps?: PaxesProps,
   onChange?: (RoomsValueType: object) => void
+  okLabel?: string
 }
