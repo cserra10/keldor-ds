@@ -36,12 +36,14 @@
     "@material-ui/lab": "^4.0.0-alpha.40",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.9.0",
+    "@types/shortid": "^0.0.29",
     "axios": "^0.19.2",
     "clsx": "^1.0.4",
     "date-fns": "^2.9.0",
     "moment-range": "^4.0.2",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "shortid": "^2.2.15"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

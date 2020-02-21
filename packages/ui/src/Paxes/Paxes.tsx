@@ -1,4 +1,5 @@
-import React, {useEffect, memo, useState} from 'react'
+import React, { useEffect, memo, useState } from 'react'
+import shortid from 'shortid'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import NativeSelect from '@material-ui/core/NativeSelect'
@@ -15,6 +16,7 @@ const styles = combineStyles(defaultStyles, themeStyles)
 
 const Paxes: React.FunctionComponent<PaxesProps> = (
   {
+    id = shortid.generate(),
     className: classNameProp,
     classes = {},
     title = 'Paxes selection',
@@ -32,11 +34,10 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
     value: valueProp = {
       adults: 2,
       children: 0
-    },
-    id = String(+new Date())
+    }
   }: PaxesProps
 ) => {
-  const [data, setData] = React.useState<PaxesDataType>({
+  const [data, setData] = useState<PaxesDataType>({
     id,
     value: {
       adults: valueProp.adults,
@@ -45,32 +46,35 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
     },
     submitted: false,
     error: undefined,
-    count: 0
+    submitCount: 0
   })
 
-  const { value, submitted, error, count } = data
+  const {
+    value, error, submitted, submitCount
+  } = data
 
-  useEffect(() => {
-    if (onChange) {
-      onChange(value)
-
-      if (autoSubmit) onSubmit(data)
-    }
-  }, [value])
+  const { adults, children, childrenAges } = value
 
   const handleSubmit = () => {
-    const isValid = value.childrenAges.every(age => age >= 0)
+    const isValid = childrenAges.every(age => age >= 0)
     setData((prevState: PaxesDataType) => ({
       ...prevState,
       submitted: true,
       error: isValid ? undefined : { message: 'Enter child age' },
-      count: prevState.count + 1
+      submitCount: prevState.submitCount + 1
     }))
   }
 
   useEffect(() => {
+    if (onChange) {
+      onChange(value)
+      if (autoSubmit) onSubmit(data)
+    }
+  }, [value])
+
+  useEffect(() => {
     if (onSubmit) onSubmit(data)
-  }, [count])
+  }, [submitCount])
 
   const handleAdultsChange = (n: number) => {
     setData((prevState: PaxesDataType) => ({
@@ -83,31 +87,42 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
   }
 
   const handleChildrenChange = (n: number) => {
-    setData((prevState: PaxesDataType) => ({
-      ...prevState,
-      value: {
-        ...prevState.value,
-        children: n,
-        childrenAges: prevState.value.children < n
-          // Expand childrenAges
-          ? prevState.value.childrenAges.concat(
-            new Array(n - prevState.value.childrenAges.length).fill(undefined)
-          )
-          // Cut childrenAges
-          : prevState.value.childrenAges.slice(0, n)
+    setData((prevState: PaxesDataType) => {
+      const {
+        children: prevChildren,
+        childrenAges: prevChildrenAges
+      } = prevState.value
+
+      return {
+        ...prevState,
+        value: {
+          ...prevState.value,
+          children: n,
+          childrenAges: prevChildren < n
+            // Expand childrenAges
+            ? prevChildrenAges.concat(
+              new Array(n - prevChildrenAges.length).fill(undefined)
+            )
+            // Cut childrenAges
+            : prevChildrenAges.slice(0, n)
+        }
       }
-    }))
+    })
   }
 
   const handleChildrenAgeChange = (index: number, v: number | string) => {
-    setData((prevState: PaxesDataType) => ({
-      ...prevState,
-      value: {
-        ...prevState.value,
-        childrenAges:
-          prevState.value.childrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
+    setData((prevState: PaxesDataType) => {
+      const { childrenAges: prevChildrenAges } = prevState.value
+
+      return {
+        ...prevState,
+        value: {
+          ...prevState.value,
+          childrenAges:
+            prevChildrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
+        }
       }
-    }))
+    })
   }
 
   const getAllowedChildrenAges = () => {
@@ -142,14 +157,14 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
         </InputLabel>
         <Stepper
           className={`${classes.adultsStepper} ${classes.inputControl}`}
-          value={data.value.adults}
+          value={adults}
           minValue={minAdults}
           maxValue={maxAdults}
           onChange={handleAdultsChange}
         />
       </FormControl>
 
-      <FormControl className={classes.adults}>
+      <FormControl className={classes.children}>
         <InputLabel
           className={classes.childrenLabel}
           shrink
@@ -158,14 +173,14 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
         </InputLabel>
         <Stepper
           className={`${classes.childrenStepper} ${classes.inputControl}`}
-          value={data.value.children}
+          value={children}
           minValue={minChildren}
           maxValue={maxChildren}
           onChange={handleChildrenChange}
         />
       </FormControl>
 
-      {data.value.childrenAges.map((age: number, i: number) => (
+      {childrenAges.map((age: number, i: number) => (
         // eslint-disable-next-line react/no-array-index-key
         <div key={`children${i}`}>
           <FormControl>

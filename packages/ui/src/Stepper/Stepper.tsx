@@ -69,4 +69,4 @@ const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => 
   )
 }
 
-export default withStyles(combinedStyles)(Stepper)
+export default memo(withStyles(combinedStyles)(Stepper))

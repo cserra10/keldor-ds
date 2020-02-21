@@ -1,11 +1,12 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useState } from 'react'
+import shortid from 'shortid'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { RoomsProps } from './types'
+import { RoomsProps, RoomsDataType } from './types'
 import Paxes from '../Paxes'
-import { PaxesDataType } from '../Paxes/types'
+import {PaxesDataType, PaxesValueType, RoomsValueType} from '../Paxes/types'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
 
@@ -13,38 +14,51 @@ const styles = combineStyles(defaultStyles, themeStyles)
 
 const Rooms: React.FunctionComponent<RoomsProps> = (
   {
+    id = shortid.generate(),
     className: classNameProp,
     classes = {},
     title = 'Rooms',
     maxRooms = 4,
     onChange,
-    PaxesProps = { value: { adults: 2, children: 0 } },
-    okLabel = 'Apply'
+    PaxesProps,
+    submitLabel = 'Apply',
+    autoSubmit = false,
+    showSubmit = true
   }: RoomsProps
 ) => {
-  const initialPaxes = {
-    id: String(+new Date()),
-    adults: PaxesProps.value.adults,
-    children: PaxesProps.value.children,
-    childrenAges: new Array(PaxesProps.value.children).fill(undefined)
-  }
 
-  const [value, setValue] = React.useState<PaxesDataType[]>([initialPaxes])
-
-  const validate = (data: PaxesDataType[]) => {
-
-  }
-
-  const onOk = () => {
-    if (onChange) {
-      onChange(value)
+  const initialRoomPaxes: PaxesDataType = {
+    value: {
+      adults: PaxesProps?.value.adults || 2,
+      children: PaxesProps?.value.children || 0,
+      childrenAges: new Array(PaxesProps?.value.children || 0).fill(undefined)
     }
   }
 
+  const [data, setData] = useState<RoomsValueType>({
+    id,
+    rooms: [initialRoomPaxes],
+    submitted: false,
+    error: undefined,
+    submitCount: 0
+  })
+
+  const { rooms } = data
+
+  const handleSubmit = () => {
+    const isValid = rooms.every((roomPaxes: PaxesDataType) => roomPaxes.error === undefined)
+    setData((prevState: PaxesDataType) => ({
+      ...prevState,
+      submitted: true,
+      error: isValid ? undefined : { message: 'Enter child age' },
+      submitCount: prevState.submitCount + 1
+    }))
+  }
+
   const addRoom = () => {
-    const roomCount = value.length + 1
+    const roomCount = rooms.length + 1
     if (roomCount <= maxRooms) {
-      setValue(prevState => prevState.concat(...[initialPaxes]))
+      setData((prevState: RoomsValueType) => prevState.concat(...[initialRoomPaxes]))
     }
   }
 
@@ -52,19 +66,25 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     e.preventDefault()
     // @ts-ignore
     const index = e.currentTarget.attributes['data-index']
-    setValue(prevState => {
-      const temp = [...prevState]
+    setData((prevState: RoomsValueType) => {
+      const temp = [...prevState.rooms]
       temp.splice(index, 1)
-      return temp
+      return {
+        ...prevState,
+        rooms: temp
+      }
     })
   }
 
   const updatePaxesInRoom = useCallback((paxes: PaxesDataType) => {
-    setValue(prevState => {
-      const temp = [...prevState]
+    setData((prevState: RoomsValueType) => {
+      const temp = [...prevState.rooms]
       const i = temp.findIndex(item => item.id === paxes.id)
       temp[i] = paxes
-      return temp
+      return {
+        ...prevState,
+        rooms: temp
+      }
     })
   }, [])
 
@@ -79,15 +99,16 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
         {title}
       </Typography>
 
-      {value.map((paxes, index: number) => (
+      {rooms.map((paxes: RoomsValueType, index: number) => (
         <div
-          className={classes.paxesContainer}
           key={paxes.id}
+          className={classes.paxesContainer}
         >
           <Paxes
             id={`${paxes.id}`}
             title={`Room ${index + 1}`}
-            onChange={updatePaxesInRoom}
+            autoSubmit
+            onSubmit={updatePaxesInRoom}
           />
 
           <ButtonBase
@@ -109,9 +130,9 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
 
       <ButtonBase
         className={classes.okButton}
-        onClick={onOk}
+        onClick={handleSubmit}
       >
-        {okLabel}
+        {submitLabel}
       </ButtonBase>
     </div>
   )

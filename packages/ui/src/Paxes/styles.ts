@@ -63,8 +63,7 @@ export const defaultStyles = (theme: Theme) => {
     },
 
     title: {
-      paddingBottom: theme.spacing(1),
-      borderBottom: `1px solid ${theme.palette.grey.A100}`
+      paddingBottom: theme.spacing(1)
     },
 
     inputControl: {

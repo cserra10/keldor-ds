@@ -7,12 +7,13 @@ export type PaxesValueType = {
 export type PaxesDataType = {
   id?: string
   value: PaxesValueType
-  submitted: boolean
-  error: undefined | { message: string },
-  count: number
+  submitted?: boolean
+  error?: undefined | { message: string },
+  submitCount?: number
 }
 
 export type PaxesProps = {
+  id?: string
   className?: string
   classes?: Record<string, string>
   title?: string
@@ -30,5 +31,4 @@ export type PaxesProps = {
   submitLabel?: string
   autoSubmit?: boolean
   showSubmit?: boolean
-  id?: string
 }
