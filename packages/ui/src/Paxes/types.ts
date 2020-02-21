@@ -1,12 +1,12 @@
-export type PaxesValueType = {
+export type PaxesType = {
   adults?: number
   children?: number
   childrenAges?: number[]
 }
 
-export type PaxesDataType = {
+export type PaxesFormType = {
   id?: string
-  value: PaxesValueType
+  paxes?: PaxesType
   submitted?: boolean
   error?: undefined | { message: string },
   submitCount?: number
@@ -25,10 +25,11 @@ export type PaxesProps = {
   maxChildren?: number
   minChildrenAge?: number
   maxChildrenAge?: number
-  value?: PaxesValueType
-  onChange?: (value: PaxesValueType) => void
-  onSubmit?: (data: PaxesDataType) => void
+  paxes?: PaxesType
+  onChange?: (value: PaxesType) => void
+  onSubmit?: (data: PaxesFormType) => void
   submitLabel?: string
   autoSubmit?: boolean
   showSubmit?: boolean
+  showError?: boolean
 }

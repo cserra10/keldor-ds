@@ -1,13 +1,16 @@
-import { PaxesValueType, PaxesProps } from '../Paxes/types'
+import { PaxesProps, PaxesFormType } from '../Paxes/types'
 
-export type RoomsType = PaxesValueType[]
+export type RoomsType = {
+  id: string,
+  paxesForm: PaxesFormType
+}
 
-export type RoomsDataType = {
+export type RoomsFormType = {
   id?: string
-  rooms: RoomsType
-  submitted: boolean
-  error: undefined | { message: string },
-  submitCount: number
+  rooms?: RoomsType[]
+  submitted?: boolean
+  error?: undefined | { message: string },
+  submitCount?: number
 }
 
 export type RoomsProps = {
@@ -16,9 +19,9 @@ export type RoomsProps = {
   classes?: Record<string, string>
   title?: string
   maxRooms?: number
-  PaxesProps?: PaxesProps,
-  onChange?: (value: RoomsType) => void
-  onSubmit?: (data: RoomsDataType) => void
+  PaxesProps?: PaxesProps
+  onChange?: (rooms: RoomsType[]) => void
+  onSubmit?: (form: PaxesFormType) => void
   submitLabel?: string
   autoSubmit?: boolean
   showSubmit?: boolean

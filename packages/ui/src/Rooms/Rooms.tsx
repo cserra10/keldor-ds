@@ -1,53 +1,67 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 import shortid from 'shortid'
 import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { RoomsProps, RoomsDataType } from './types'
-import Paxes from '../Paxes'
-import {PaxesDataType, PaxesValueType, RoomsValueType} from '../Paxes/types'
+import { RoomsProps, RoomsFormType, RoomsType } from './types'
+import Paxes, { createPaxesForm } from '../Paxes'
+import { PaxesFormType } from '../Paxes/types'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
+export const createRoomsForm = ({ id, rooms }: RoomsFormType = {
+  id: shortid.generate(),
+  rooms: []
+}): RoomsFormType => ({
+  id,
+  rooms: [...rooms],
+  submitted: false,
+  submitCount: 0,
+  error: undefined
+})
+
 const Rooms: React.FunctionComponent<RoomsProps> = (
   {
-    id = shortid.generate(),
     className: classNameProp,
     classes = {},
     title = 'Rooms',
     maxRooms = 4,
-    onChange,
     PaxesProps,
+    onChange,
+    onSubmit,
     submitLabel = 'Apply',
     autoSubmit = false,
     showSubmit = true
   }: RoomsProps
 ) => {
-
-  const initialRoomPaxes: PaxesDataType = {
-    value: {
-      adults: PaxesProps?.value.adults || 2,
-      children: PaxesProps?.value.children || 0,
-      childrenAges: new Array(PaxesProps?.value.children || 0).fill(undefined)
-    }
-  }
-
-  const [data, setData] = useState<RoomsValueType>({
-    id,
-    rooms: [initialRoomPaxes],
-    submitted: false,
-    error: undefined,
-    submitCount: 0
+  const createRoom = (): RoomsType => ({
+    id: shortid.generate(),
+    paxesForm: createPaxesForm({
+      paxes: {
+        adults: PaxesProps?.paxes.adults || 2,
+        children: PaxesProps?.paxes.children || 0,
+        childrenAges: new Array(PaxesProps?.paxes.children || 0).fill(undefined)
+      }
+    })
   })
 
-  const { rooms } = data
+  const [form, setForm] = useState<RoomsFormType>(createRoomsForm({
+    rooms: [createRoom()]
+  }))
+
+  const { rooms, error, submitCount } = form
 
   const handleSubmit = () => {
-    const isValid = rooms.every((roomPaxes: PaxesDataType) => roomPaxes.error === undefined)
-    setData((prevState: PaxesDataType) => ({
+    const isValid = rooms.every((room: RoomsType) => room.paxesForm.error === undefined)
+    setForm((prevState: RoomsFormType) => ({
       ...prevState,
       submitted: true,
       error: isValid ? undefined : { message: 'Enter child age' },
@@ -58,15 +72,30 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
   const addRoom = () => {
     const roomCount = rooms.length + 1
     if (roomCount <= maxRooms) {
-      setData((prevState: RoomsValueType) => prevState.concat(...[initialRoomPaxes]))
+      const newRoom = createRoom()
+      setForm((prevState: RoomsFormType) => ({
+        ...prevState,
+        rooms: prevState.rooms.concat(...[newRoom])
+      }))
     }
   }
+
+  useEffect(() => {
+    if (onChange) onChange(form.rooms)
+    if (autoSubmit) handleSubmit()
+  }, [form.rooms])
+
+  useEffect(() => {
+    if (onSubmit && submitCount > 0) {
+      onSubmit(form)
+    }
+  }, [submitCount])
 
   const deleteRoom = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     // @ts-ignore
     const index = e.currentTarget.attributes['data-index']
-    setData((prevState: RoomsValueType) => {
+    setForm((prevState: RoomsFormType) => {
       const temp = [...prevState.rooms]
       temp.splice(index, 1)
       return {
@@ -76,11 +105,11 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     })
   }
 
-  const updatePaxesInRoom = useCallback((paxes: PaxesDataType) => {
-    setData((prevState: RoomsValueType) => {
+  const updatePaxesInRoom = useCallback((paxesForm: PaxesFormType) => {
+    setForm((prevState: RoomsFormType) => {
       const temp = [...prevState.rooms]
-      const i = temp.findIndex(item => item.id === paxes.id)
-      temp[i] = paxes
+      const i = temp.findIndex(item => item.paxesForm.id === paxesForm.id)
+      temp[i].paxesForm = paxesForm
       return {
         ...prevState,
         rooms: temp
@@ -99,16 +128,18 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
         {title}
       </Typography>
 
-      {rooms.map((paxes: RoomsValueType, index: number) => (
+      {rooms.map((room, index: number) => (
         <div
-          key={paxes.id}
+          key={room.id}
           className={classes.paxesContainer}
         >
           <Paxes
-            id={`${paxes.id}`}
+            id={room.paxesForm.id}
             title={`Room ${index + 1}`}
-            autoSubmit
             onSubmit={updatePaxesInRoom}
+            autoSubmit
+            showError={false}
+            showSubmit={false}
           />
 
           <ButtonBase
@@ -128,12 +159,16 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
         Add room
       </ButtonBase>
 
-      <ButtonBase
-        className={classes.okButton}
-        onClick={handleSubmit}
-      >
-        {submitLabel}
-      </ButtonBase>
+      {error && <Typography>{error.message}</Typography>}
+
+      {showSubmit && (
+        <ButtonBase
+          className={classes.okButton}
+          onClick={handleSubmit}
+        >
+          {submitLabel}
+        </ButtonBase>
+      )}
     </div>
   )
 }

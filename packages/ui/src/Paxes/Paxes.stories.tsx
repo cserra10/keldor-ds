@@ -10,9 +10,6 @@ export default {
 export const Default = () => {
   return (
     <Paxes
-      value={{
-        adults: 2
-      }}
       onChange={action('onChange')}
       onSubmit={action('onSubmit')}
     />

@@ -7,16 +7,30 @@ import Typography from '@material-ui/core/Typography'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { PaxesDataType, PaxesProps } from './types'
+import { PaxesFormType, PaxesProps } from './types'
 import Stepper from '../Stepper'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
-const Paxes: React.FunctionComponent<PaxesProps> = (
+export const createPaxesForm = (
   {
     id = shortid.generate(),
+    paxes
+  }: PaxesFormType
+): PaxesFormType => ({
+  id,
+  paxes: { ...paxes },
+  submitted: false,
+  submitCount: 0,
+  error: undefined
+})
+
+const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
+  // region props destructuring
+  const {
+    id,
     className: classNameProp,
     classes = {},
     title = 'Paxes selection',
@@ -31,33 +45,31 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
     autoSubmit = false,
     submitLabel = 'Apply',
     showSubmit = true,
-    value: valueProp = {
+    showError = true,
+    paxes = {
       adults: 2,
       children: 0
     }
-  }: PaxesProps
-) => {
-  const [data, setData] = useState<PaxesDataType>({
-    id,
-    value: {
-      adults: valueProp.adults,
-      children: valueProp.children,
-      childrenAges: new Array(valueProp.children).fill(undefined)
-    },
-    submitted: false,
-    error: undefined,
-    submitCount: 0
-  })
+  } = props
+  // endregion
 
-  const {
-    value, error, submitted, submitCount
-  } = data
+  const [form, setForm] = useState<PaxesFormType>(createPaxesForm(
+    {
+      id,
+      paxes: {
+        adults: paxes.adults,
+        children: paxes.children,
+        childrenAges: new Array(paxes.children).fill(undefined)
+      }
+    }
+  ))
 
-  const { adults, children, childrenAges } = value
+  const { submitted, submitCount, error } = form
+  const { adults, children, childrenAges } = form.paxes
 
   const handleSubmit = () => {
     const isValid = childrenAges.every(age => age >= 0)
-    setData((prevState: PaxesDataType) => ({
+    setForm((prevState: PaxesFormType) => ({
       ...prevState,
       submitted: true,
       error: isValid ? undefined : { message: 'Enter child age' },
@@ -66,37 +78,37 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
   }
 
   useEffect(() => {
-    if (onChange) {
-      onChange(value)
-      if (autoSubmit) onSubmit(data)
-    }
-  }, [value])
+    if (onChange) onChange(form.paxes)
+    if (autoSubmit) handleSubmit()
+  }, [form.paxes])
 
   useEffect(() => {
-    if (onSubmit) onSubmit(data)
+    if (onSubmit && submitCount > 0) {
+      onSubmit(form)
+    }
   }, [submitCount])
 
   const handleAdultsChange = (n: number) => {
-    setData((prevState: PaxesDataType) => ({
+    setForm((prevState: PaxesFormType) => ({
       ...prevState,
-      value: {
-        ...prevState.value,
+      paxes: {
+        ...prevState.paxes,
         adults: n
       }
     }))
   }
 
   const handleChildrenChange = (n: number) => {
-    setData((prevState: PaxesDataType) => {
+    setForm((prevState: PaxesFormType) => {
       const {
         children: prevChildren,
         childrenAges: prevChildrenAges
-      } = prevState.value
+      } = prevState.paxes
 
       return {
         ...prevState,
-        value: {
-          ...prevState.value,
+        paxes: {
+          ...prevState.paxes,
           children: n,
           childrenAges: prevChildren < n
             // Expand childrenAges
@@ -111,13 +123,13 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
   }
 
   const handleChildrenAgeChange = (index: number, v: number | string) => {
-    setData((prevState: PaxesDataType) => {
-      const { childrenAges: prevChildrenAges } = prevState.value
+    setForm((prevState: PaxesFormType) => {
+      const { childrenAges: prevChildrenAges } = prevState.paxes
 
       return {
         ...prevState,
-        value: {
-          ...prevState.value,
+        paxes: {
+          ...prevState.paxes,
           childrenAges:
             prevChildrenAges.map((age: number, i: number) => ((index === i) ? +v : age))
         }
@@ -209,7 +221,7 @@ const Paxes: React.FunctionComponent<PaxesProps> = (
         </div>
       ))}
 
-      {error && <Typography>{error.message}</Typography>}
+      {showError && error && <Typography>{error.message}</Typography>}
 
       {showSubmit && (
         <ButtonBase

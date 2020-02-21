@@ -11,6 +11,7 @@ export const Default = () => {
   return (
     <Rooms
       onChange={action('onChange')}
+      onSubmit={action('onSubmit')}
     />
   )
 }
