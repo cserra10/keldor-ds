@@ -194,31 +194,29 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
 
       {childrenAges.map((age: number, i: number) => (
         // eslint-disable-next-line react/no-array-index-key
-        <div key={`children${i}`}>
-          <FormControl>
-            <InputLabel
-              className={classes.adultsLabel}
-              shrink
-            >
-              {`Age children ${i + 1}:`}
-            </InputLabel>
-            <NativeSelect
-              className={`${classes.ageSelect} ${classes.inputControl} ${submitted && error ? 'error' : ''}`}
-              value={age}
-              onChange={(e: any) => handleChildrenAgeChange(i, e.target.value)}
-            >
-              <option> </option>
-              {allowedChildrenAges.map(option => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </NativeSelect>
-          </FormControl>
-        </div>
+        <FormControl key={`children${i}`}>
+          <InputLabel
+            className={classes.adultsLabel}
+            shrink
+          >
+            {`Age children ${i + 1}:`}
+          </InputLabel>
+          <NativeSelect
+            className={`${classes.ageSelect} ${classes.inputControl} ${submitted && error ? 'error' : ''}`}
+            value={age}
+            onChange={(e: any) => handleChildrenAgeChange(i, e.target.value)}
+          >
+            <option> </option>
+            {allowedChildrenAges.map(option => (
+              <option
+                key={option.value}
+                value={option.value}
+              >
+                {option.label}
+              </option>
+            ))}
+          </NativeSelect>
+        </FormControl>
       ))}
 
       {showError && error && <Typography>{error.message}</Typography>}

@@ -11,5 +11,5 @@ export type DatePickerProps = {
   onOpen?: () => void
   onClose?: () => void
   open?: boolean,
-  disablePast: boolean
+  disablePast?: boolean
 }
