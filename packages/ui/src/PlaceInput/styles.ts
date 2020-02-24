@@ -4,7 +4,8 @@ import { Theme, createStyles } from '@material-ui/core/styles'
 export const defaultStyles = (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
-
+      display: 'flex',
+      flexDirection: 'column'
     },
 
     input: {
@@ -20,6 +21,14 @@ export const defaultStyles = (theme: Theme) => {
     inputEndAdornment: {
 
     },
+
+    cancel: {
+      padding: theme.spacing(1),
+      border: `1px solid ${theme.palette.grey.A100}`,
+      alignSelf: 'flex-end',
+      width: 'fitContent'
+
+},
 
     placeList: {
       border: '1px solid #e7e7e7'

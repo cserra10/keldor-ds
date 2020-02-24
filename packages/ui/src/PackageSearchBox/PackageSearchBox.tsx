@@ -60,12 +60,10 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
 
   const className = clsx(classNameProp, classes.root)
 
-  const openDialog = (e: React.MouseEvent) => {
-    // @ts-ignore
-    const dialog = e.target.attributes['data-dialog'].value
+  const openRoomsDialog = (e: React.MouseEvent) => {
     setDialogs(prevState => ({
       ...prevState,
-      [dialog]: true
+      rooms: true
     }))
   }
 
@@ -135,8 +133,7 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
 
       <ButtonBase
         className={classes.rooms}
-        data-dialog="rooms"
-        onClick={openDialog}
+        onClick={openRoomsDialog}
       >
         <div>
           <Hotel />
