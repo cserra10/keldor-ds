@@ -1,12 +1,11 @@
-import { Theme, fade } from '@material-ui/core/styles'
-import { StylesAPI } from '@keldor-ds/themes/build/api/common/DateRangePicker'
+import { Theme, fade } from '@keldor-ds/themes/build'
 
 export default (theme: Theme) => {
   const focusedRangeColor = fade(theme.palette.primary.main, 0.3)
   const focusedRangeGradient = `linear-gradient(to right, ${focusedRangeColor}, ${focusedRangeColor})`
   const transparentRangeGradient = 'linear-gradient(to right, rgba(0,0,0,0.0), rgba(0,0,0,0.0))'
 
-  return <StylesAPI> {
+  return {
     dateRangePickerDialog: {
       '& .MuiPickersCalendar-transitionContainer': {
         minHeight: 218,

@@ -21,6 +21,9 @@ export const Default = () => {
       fetchPlaces={fetchPlaces}
       onChange={action('onChange')}
       onSubmit={action('onSubmit')}
+      classes={{
+        root: 'barClassName'
+      }}
     />
   )
 }

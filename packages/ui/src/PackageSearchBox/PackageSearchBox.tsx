@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Person from '@material-ui/icons/Person'
 import Hotel from '@material-ui/icons/Hotel'
 import Dialog from '@material-ui/core/Dialog'
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import DateRangePicker from '../DateRangePicker/DateRangePicker'
 import Rooms from '../Rooms'
 import DialogPlaceInput from '../DialogPlaceInput'
@@ -40,8 +40,6 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
     submitCount: 0,
     error: undefined
   })
-
-  console.log(theme)
   const { data, submitCount } = form
 
   useEffect(() => {
@@ -178,4 +176,4 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   )
 }
 
-export default memo(withStyles(styles, {withTheme: true})(PackageSearchBox))
+export default memo(withStyles(styles)(PackageSearchBox))

@@ -1,5 +1,5 @@
-import { CSSProperties } from '@material-ui/styles/withStyles'
-import { Theme, createStyles } from '@material-ui/core/styles'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { mergeDeep } from '../utils'
 
 export interface StylesAPI {
   /**
@@ -48,7 +48,7 @@ export interface StylesAPI {
   ageSelect?: CSSProperties
 }
 
-export const defaultStyles = (theme: Theme) => {
+export default (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
       '& > *': {
@@ -77,14 +77,5 @@ export const defaultStyles = (theme: Theme) => {
     }
   })
 
-  return styles
-}
-
-export const themeStyles = (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
-    root: {
-    }
-  })
-
-  return styles
+  return mergeDeep(styles, theme.styles.Paxes || {})
 }

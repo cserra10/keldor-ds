@@ -6,15 +6,12 @@ import React, {
 } from 'react'
 import shortid from 'shortid'
 import clsx from 'clsx'
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import { RoomsProps, RoomsFormType, RoomType } from './types'
 import Paxes, { PaxesType } from '../Paxes'
-import { defaultStyles, themeStyles } from './styles'
-import { combineStyles } from '../utils'
-
-const styles = combineStyles(defaultStyles, themeStyles)
+import styles from './styles'
 
 export const createRoomsForm = ({ id, rooms }: RoomsFormType = {
   id: shortid.generate(),

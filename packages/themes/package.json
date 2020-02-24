@@ -17,8 +17,7 @@
   },
   "scripts": {
     "tsc": "tsc --declaration --outDir build",
-    "jss": "node build-jss.js",
-    "build": "yarn tsc && yarn jss",
+    "build": "yarn tsc",
     "copyfiles": "copyfiles package.json build",
     "release": "yarn build && yarn copyfiles && npm publish build --tag latest --registry http://localhost:4873"
   },

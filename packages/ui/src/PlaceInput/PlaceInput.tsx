@@ -6,13 +6,11 @@ import SearchIcon from '@material-ui/icons/Search'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import InputBase from '@material-ui/core/InputBase'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { withStyles } from '@material-ui/styles'
-import { defaultStyles } from './styles'
-import { combineStyles, debounce } from '../utils'
+import { withStyles } from '@keldor-ds/themes/build'
+import { debounce } from '../utils'
 import PlaceList from '../PlaceList/PlaceList'
 import { PlaceInputProps, PlaceType } from './types'
-
-export const styles = combineStyles(defaultStyles, {})
+import styles from './styles'
 
 const PlaceInput: React.FC<PlaceInputProps> = (
   {

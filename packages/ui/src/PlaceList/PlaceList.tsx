@@ -4,12 +4,10 @@ import FlightIcon from '@material-ui/icons/Flight'
 import HotelIcon from '@material-ui/icons/Hotel'
 import LocationCityIcon from '@material-ui/icons/LocationCity'
 import PlaceIcon from '@material-ui/icons/Place'
-import { withStyles } from '@material-ui/styles'
-import { defaultStyles } from './styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import { PlaceListProps, PlaceType } from './types'
-import { combineStyles, groupBy } from '../utils'
-
-const styles = combineStyles(defaultStyles, {})
+import { groupBy } from '../utils'
+import styles from './styles'
 
 type Indexes = {
   [key: string]: JSX.Element | string

@@ -6,11 +6,8 @@ import ButtonBase from '@material-ui/core/ButtonBase'
 import RemoveIcon from '@material-ui/icons/Remove'
 import AddIcon from '@material-ui/icons/Add'
 import { withStyles } from '@material-ui/core'
-import { defaultStyles, themeStyles } from './styles'
 import { StepperProps } from './types'
-import { combineStyles } from '../utils'
-
-const combinedStyles = combineStyles(defaultStyles, themeStyles)
+import styles from './styles'
 
 const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => {
   const {
@@ -69,4 +66,4 @@ const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => 
   )
 }
 
-export default memo(withStyles(combinedStyles)(Stepper))
+export default memo(withStyles(styles)(Stepper))

@@ -5,14 +5,10 @@ import clsx from 'clsx'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
 import Box from '@material-ui/core/Box'
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
-import themeStyles from '@keldor-ds/themes/src/bestday/styles/common/DateRangePicker'
 import { DatePickerProps } from './types'
-import defaultStyles from './styles'
-import { combineStyles } from '../utils'
-
-const styles = combineStyles(defaultStyles, themeStyles)
+import styles from './styles'
 
 function DateRangePicker(
   {

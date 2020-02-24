@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useState } from 'react'
 import shortid from 'shortid'
 import clsx from 'clsx'
-import { withStyles } from '@material-ui/styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import Typography from '@material-ui/core/Typography'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -9,10 +9,7 @@ import FormControl from '@material-ui/core/FormControl'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import { PaxesFormType, PaxesProps } from './types'
 import Stepper from '../Stepper'
-import { defaultStyles, themeStyles } from './styles'
-import { combineStyles } from '../utils'
-
-const styles = combineStyles(defaultStyles, themeStyles)
+import styles from './styles'
 
 const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
   // region props destructuring

@@ -4,14 +4,10 @@ import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
 import Dialog from '@material-ui/core/Dialog'
 import PlaceIcon from '@material-ui/icons/Place'
-import CloseIcon from '@material-ui/icons/Close'
-import { withStyles } from '@material-ui/core/styles'
-import { defaultStyles } from './styles'
+import { withStyles } from '@keldor-ds/themes/build'
 import PlaceInput, { PlaceType } from '../PlaceInput'
 import { DialogPlaceInputProps } from './types'
-import { combineStyles } from '../utils'
-
-const styles = combineStyles(defaultStyles, {})
+import styles from './styles'
 
 const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
   className: classNameProp,

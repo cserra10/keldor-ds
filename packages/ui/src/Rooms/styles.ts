@@ -1,5 +1,5 @@
-import { CSSProperties } from '@material-ui/styles/withStyles'
-import { Theme, createStyles } from '@material-ui/core/styles'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { mergeDeep } from '../utils'
 
 export interface StylesAPI {
   /**
@@ -11,7 +11,7 @@ export interface StylesAPI {
   addRoomButton?: CSSProperties
 }
 
-export const defaultStyles = (theme: Theme) => {
+export default (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
       border: `1px solid ${theme.palette.grey.A100}`,
@@ -46,14 +46,5 @@ export const defaultStyles = (theme: Theme) => {
     }
   })
 
-  return styles
-}
-
-export const themeStyles = (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
-    root: {
-    }
-  })
-
-  return styles
+  return mergeDeep(styles, theme.styles.Rooms || {})
 }

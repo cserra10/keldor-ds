@@ -1,13 +1,16 @@
-import { createMuiTheme } from '@material-ui/core/styles'
 import styles from './styles'
 
-export default createMuiTheme({
+export default {
+  // TODO: Define theme here. Palette, Typography, etc
   overrides: {
-
-    MuiButton: {
+    MuiInputBase: {
       root: {
-        color: 'red'
+        borderRadius: 6,
+        fontSize: 16
       }
     }
-  }
-})
+  },
+
+  // Styles for all components goes here
+  styles
+}

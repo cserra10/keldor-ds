@@ -1,7 +1,14 @@
-import StylesAPI from '@keldor-ds/themes/build/api/search/PlaceInput'
-import { Theme, createStyles } from '@material-ui/core/styles'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { mergeDeep } from '../utils'
 
-export const defaultStyles = (theme: Theme) => {
+export interface StylesAPI {
+  /**
+   * Styles applied to the root element
+   */
+  root?: CSSProperties
+}
+
+export default (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
       display: 'flex',
@@ -35,14 +42,5 @@ export const defaultStyles = (theme: Theme) => {
     }
   })
 
-  return styles
-}
-
-export const themeStyles = (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
-    root: {
-    }
-  })
-
-  return styles
+  return mergeDeep(styles, theme.styles.PlaceInput || {})
 }
