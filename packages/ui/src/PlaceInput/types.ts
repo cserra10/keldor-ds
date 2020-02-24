@@ -1,15 +1,5 @@
 export type PlaceType = null | Record<string, string>
 
-export type PlaceListProps = {
-  className?: string
-  optionProps: Function
-  places: PlaceType[]
-  showHeader?: boolean
-  showPlaceIcon?: boolean
-  labelProperty?: string
-  groupBy?: string
-}
-
 export type PlaceInputProps = {
   /**
    * className applied to the root element
@@ -90,4 +80,6 @@ export type PlaceInputProps = {
   groupBy?: string
 
   endAdornment?: JSX.Element
+
+  onCancel?: () => void
 }

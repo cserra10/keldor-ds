@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { memo } from 'react'
 import clsx from 'clsx'
 import FlightIcon from '@material-ui/icons/Flight'
 import HotelIcon from '@material-ui/icons/Hotel'
 import LocationCityIcon from '@material-ui/icons/LocationCity'
 import PlaceIcon from '@material-ui/icons/Place'
-import { createStyles, makeStyles } from '@material-ui/core'
-import styles from '@keldor-ds/themes/build/bestday/styles/PlaceList'
+import { withStyles } from '@material-ui/styles'
+import { defaultStyles } from './styles'
 import { PlaceListProps, PlaceType } from './types'
-import { groupBy } from '../utils'
+import { combineStyles, groupBy } from '../utils'
 
-// @ts-ignore
-export const useStyles = makeStyles(createStyles(styles))
+const styles = combineStyles(defaultStyles, {})
 
 type Indexes = {
   [key: string]: JSX.Element | string
@@ -33,6 +32,7 @@ const PLACE_TYPES = {
 const PlaceList: React.FC<PlaceListProps> = (
   {
     className: classNameProp,
+    classes,
     optionProps,
     places,
     labelProperty = 'Label',
@@ -44,7 +44,6 @@ const PlaceList: React.FC<PlaceListProps> = (
   let index = -1
   const groupedPlaces = groupBy(places, (p: PlaceType) => (p ? p[groupByProp] : ''))
 
-  const classes = useStyles()
   const className = clsx(classNameProp, classes.root)
 
   return (
@@ -81,4 +80,4 @@ const PlaceList: React.FC<PlaceListProps> = (
   )
 }
 
-export default PlaceList
+export default memo(withStyles(styles)(PlaceList))

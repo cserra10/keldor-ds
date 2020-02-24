@@ -9,9 +9,8 @@ import clsx from 'clsx'
 import { withStyles } from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
-import { RoomsProps, RoomsFormType, RoomsType } from './types'
-import Paxes, { createPaxesForm } from '../Paxes'
-import { PaxesFormType } from '../Paxes/types'
+import { RoomsProps, RoomsFormType, RoomType } from './types'
+import Paxes, { PaxesType } from '../Paxes'
 import { defaultStyles, themeStyles } from './styles'
 import { combineStyles } from '../utils'
 
@@ -30,6 +29,7 @@ export const createRoomsForm = ({ id, rooms }: RoomsFormType = {
 
 const Rooms: React.FunctionComponent<RoomsProps> = (
   {
+    id = shortid.generate(),
     className: classNameProp,
     classes = {},
     title = 'Rooms',
@@ -39,28 +39,44 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     onSubmit,
     submitLabel = 'Apply',
     autoSubmit = false,
-    showSubmit = true
+    showSubmit = true,
+    initialData = [{
+      adults: 2,
+      children: 0,
+      childrenAges: []
+    }]
   }: RoomsProps
 ) => {
-  const createRoom = (): RoomsType => ({
-    id: shortid.generate(),
-    paxesForm: createPaxesForm({
-      paxes: {
-        adults: PaxesProps?.paxes.adults || 2,
-        children: PaxesProps?.paxes.children || 0,
-        childrenAges: new Array(PaxesProps?.paxes.children || 0).fill(undefined)
+  const createRoom = (paxes?: PaxesType): RoomType => {
+    if (paxes) {
+      return {
+        id: shortid.generate(),
+        paxes
       }
-    })
-  })
+    }
 
-  const [form, setForm] = useState<RoomsFormType>(createRoomsForm({
-    rooms: [createRoom()]
-  }))
+    return {
+      id: shortid.generate(),
+      paxes: {
+        adults: PaxesProps?.initialData.adults || 2,
+        children: PaxesProps?.initialData.children || 0,
+        childrenAges: new Array(PaxesProps?.initialData.children || 0).fill(undefined)
+      }
+    }
+  }
+
+  const [form, setForm] = useState<RoomsFormType>({
+    id,
+    rooms: initialData.map((paxes: PaxesType) => createRoom(paxes)),
+    submitted: false,
+    submitCount: 0,
+    error: undefined
+  })
 
   const { rooms, error, submitCount } = form
 
   const handleSubmit = () => {
-    const isValid = rooms.every((room: RoomsType) => room.paxesForm.error === undefined)
+    const isValid = rooms.every((room: RoomType) => room.paxes.childrenAges.every(age => age >= 0))
     setForm((prevState: RoomsFormType) => ({
       ...prevState,
       submitted: true,
@@ -91,10 +107,7 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     }
   }, [submitCount])
 
-  const deleteRoom = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    // @ts-ignore
-    const index = e.currentTarget.attributes['data-index']
+  const deleteRoom = (index: number) => {
     setForm((prevState: RoomsFormType) => {
       const temp = [...prevState.rooms]
       temp.splice(index, 1)
@@ -105,11 +118,10 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     })
   }
 
-  const updatePaxesInRoom = useCallback((paxesForm: PaxesFormType) => {
+  const updatePaxesInRoom = useCallback((paxes: PaxesType, index) => {
     setForm((prevState: RoomsFormType) => {
       const temp = [...prevState.rooms]
-      const i = temp.findIndex(item => item.paxesForm.id === paxesForm.id)
-      temp[i].paxesForm = paxesForm
+      temp[index].paxes = paxes
       return {
         ...prevState,
         rooms: temp
@@ -130,22 +142,23 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
 
       {rooms.map((room, index: number) => (
         <div
-          key={room.id}
+          key={`room_${room.id}`}
           className={classes.paxesContainer}
         >
           <Paxes
-            id={room.paxesForm.id}
-            title={`Room ${index + 1}`}
-            onSubmit={updatePaxesInRoom}
+            id={`paxesForm_${room.id}`}
+            title={`Room ${index + 1} ${room.id}`}
+            onSubmit={paxesForm => updatePaxesInRoom(paxesForm.paxes, index)}
             autoSubmit
             showError={false}
             showSubmit={false}
+            initialData={room.paxes}
           />
 
           <ButtonBase
             className={classes.deleteRoomButton}
             data-index={index}
-            onClick={deleteRoom}
+            onClick={() => deleteRoom(index)}
           >
             Remove room
           </ButtonBase>

@@ -20,6 +20,7 @@ export const Default = () => {
     <PackageSearchBox
       fetchPlaces={fetchPlaces}
       onChange={action('onChange')}
+      onSubmit={action('onSubmit')}
     />
   )
 }

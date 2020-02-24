@@ -1,7 +1,7 @@
 export type PaxesType = {
-  adults?: number
-  children?: number
-  childrenAges?: number[]
+  adults: number
+  children: number
+  childrenAges: number[]
 }
 
 export type PaxesFormType = {
@@ -25,7 +25,7 @@ export type PaxesProps = {
   maxChildren?: number
   minChildrenAge?: number
   maxChildrenAge?: number
-  paxes?: PaxesType
+  initialData?: PaxesType
   onChange?: (value: PaxesType) => void
   onSubmit?: (data: PaxesFormType) => void
   submitLabel?: string

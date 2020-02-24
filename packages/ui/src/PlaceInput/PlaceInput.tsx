@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import clsx from 'clsx'
+import CloseIcon from '@material-ui/icons/Close'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
 import SearchIcon from '@material-ui/icons/Search'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import InputBase from '@material-ui/core/InputBase'
-import { createStyles, makeStyles } from '@material-ui/core'
-import styles from '@keldor-ds/themes/build/bestday/styles/search/PlaceInput'
-import { debounce } from '../utils'
-import PlaceList from './PlaceList'
+import ButtonBase from '@material-ui/core/ButtonBase'
+import { withStyles } from '@material-ui/styles'
+import { defaultStyles } from './styles'
+import { combineStyles, debounce } from '../utils'
+import PlaceList from '../PlaceList/PlaceList'
 import { PlaceInputProps, PlaceType } from './types'
 
-// @ts-ignore
-export const useStyles = makeStyles(createStyles(styles))
+export const styles = combineStyles(defaultStyles, {})
 
 const PlaceInput: React.FC<PlaceInputProps> = (
   {
     className: classNameProp,
+    classes,
     fetchPlaces,
     placeholder = 'Search place',
     onPlaceChange,
@@ -24,14 +26,13 @@ const PlaceInput: React.FC<PlaceInputProps> = (
     labelProperty = 'Label',
     groupBy = 'Type',
     value = null,
-    endAdornment
+    onCancel
   }: PlaceInputProps
 ) => {
   const [places, setPlaces] = React.useState<PlaceType[]>([])
   const [place, setPlace] = React.useState<PlaceType>(value)
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  // This shouldn´t live here... Or how can can deal with share all autocomplete logic?
   const handleInputChange = async (_: React.ChangeEvent<{}>, searchText: string) => {
     if (!searchText || searchText.length < 3) return false
 
@@ -58,7 +59,8 @@ const PlaceInput: React.FC<PlaceInputProps> = (
     getRootProps,
     getInputProps,
     getOptionProps,
-    groupedOptions
+    groupedOptions,
+    getClearProps
   } = useAutocomplete({
     clearOnEscape: true,
     options: places as Record<string, string>[],
@@ -67,7 +69,6 @@ const PlaceInput: React.FC<PlaceInputProps> = (
     onInputChange: debounce(handleInputChange, 200)
   })
 
-  const classes = useStyles()
   const className = clsx(classNameProp, classes.root)
 
   return (
@@ -75,6 +76,13 @@ const PlaceInput: React.FC<PlaceInputProps> = (
       className={className}
       {...getRootProps()}
     >
+      <ButtonBase
+        className={classes.cancel}
+        onClick={onCancel}
+      >
+        Cancel
+      </ButtonBase>
+
       <InputBase
         {...getInputProps()}
         className={classes.input}
@@ -92,7 +100,7 @@ const PlaceInput: React.FC<PlaceInputProps> = (
                 />
               </div>
             ) : null}
-            {endAdornment}
+            <CloseIcon {...getClearProps()} />
           </>
         )}
       />
@@ -110,4 +118,4 @@ const PlaceInput: React.FC<PlaceInputProps> = (
   )
 }
 
-export default PlaceInput
+export default memo(withStyles(styles)(PlaceInput))

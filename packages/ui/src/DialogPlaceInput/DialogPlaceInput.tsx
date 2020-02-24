@@ -5,18 +5,19 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Dialog from '@material-ui/core/Dialog'
 import PlaceIcon from '@material-ui/icons/Place'
 import CloseIcon from '@material-ui/icons/Close'
-import { createStyles, makeStyles } from '@material-ui/core'
-import styles from '@keldor-ds/themes/build/bestday/styles/search/DialogPlaceInput'
+import { withStyles } from '@material-ui/core/styles'
+import { defaultStyles } from './styles'
 import PlaceInput, { PlaceType } from '../PlaceInput'
 import { DialogPlaceInputProps } from './types'
+import { combineStyles } from '../utils'
 
-// @ts-ignore
-export const useStyles = makeStyles(createStyles(styles))
+const styles = combineStyles(defaultStyles, {})
 
 const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
   className: classNameProp,
+  classes,
   onPlaceChange,
-  placeholder = 'Search places',
+  placeholder = 'Tap to search',
   label = 'Place:',
   fetchPlaces,
   value = null
@@ -24,7 +25,6 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
   const [place, setPlace] = useState<PlaceType | null>(value)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 
-  const classes = useStyles()
   const className = clsx(classNameProp, classes.root)
 
   const closeDialog = () => setDialogOpen(false)
@@ -59,11 +59,11 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
           onPlaceChange={handlePlaceChange}
           autoFocus
           value={place}
-          endAdornment={<CloseIcon onClick={closeDialog} />}
+          onCancel={closeDialog}
         />
       </Dialog>
     </div>
   )
 }
 
-export default React.memo(DialogPlaceInput)
+export default React.memo(withStyles(styles)(DialogPlaceInput))

@@ -14,23 +14,10 @@ import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
-export const createPaxesForm = (
-  {
-    id = shortid.generate(),
-    paxes
-  }: PaxesFormType
-): PaxesFormType => ({
-  id,
-  paxes: { ...paxes },
-  submitted: false,
-  submitCount: 0,
-  error: undefined
-})
-
 const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
   // region props destructuring
   const {
-    id,
+    id = shortid.generate(),
     className: classNameProp,
     classes = {},
     title = 'Paxes selection',
@@ -46,23 +33,21 @@ const Paxes: React.FunctionComponent<PaxesProps> = (props: PaxesProps) => {
     submitLabel = 'Apply',
     showSubmit = true,
     showError = true,
-    paxes = {
+    initialData = {
       adults: 2,
-      children: 0
+      children: 0,
+      childrenAges: []
     }
   } = props
   // endregion
 
-  const [form, setForm] = useState<PaxesFormType>(createPaxesForm(
-    {
-      id,
-      paxes: {
-        adults: paxes.adults,
-        children: paxes.children,
-        childrenAges: new Array(paxes.children).fill(undefined)
-      }
-    }
-  ))
+  const [form, setForm] = useState<PaxesFormType>({
+    id,
+    paxes: { ...initialData },
+    submitted: false,
+    submitCount: 0,
+    error: undefined
+  })
 
   const { submitted, submitCount, error } = form
   const { adults, children, childrenAges } = form.paxes

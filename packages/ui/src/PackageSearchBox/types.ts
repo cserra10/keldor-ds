@@ -1,20 +1,12 @@
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
 import { PlaceType } from '../PlaceInput'
-import { PaxesType } from '../Paxes/types'
-
-export type Props = {
-  className?: string
-  classes?: Record<string, string>
-  title?: string
-  onChange?: (data: PackageDataType) => void
-  fetchPlaces: (searchText: string) => Promise<any>
-}
+import { PaxesType } from '../Paxes'
 
 export type PackageDataType = {
-  origin?: any | PlaceType
-  destination?: any | PlaceType
-  dates?: any | Array<MaterialUiPickersDate>
-  rooms?: any | PaxesType[]
+  origin?: undefined | PlaceType
+  destination?: undefined | PlaceType
+  dates?: Array<MaterialUiPickersDate>
+  rooms?: PaxesType[]
 }
 
 export type PackageFormType = {
@@ -23,4 +15,15 @@ export type PackageFormType = {
   submitted?: boolean
   error?: undefined | { message: string },
   submitCount?: number
+}
+
+export type Props = {
+  id?: string
+  className?: string
+  classes?: Record<string, string>
+  title?: string
+  onChange?: (data: PackageDataType) => void
+  onSubmit?: (form: PackageFormType) => void
+  fetchPlaces: (searchText: string) => Promise<any>
+  initialData?: PackageDataType
 }

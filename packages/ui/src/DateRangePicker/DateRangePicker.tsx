@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
 import Box from '@material-ui/core/Box'
-import { withStyles} from '@material-ui/styles'
+import { withStyles } from '@material-ui/styles'
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
 import themeStyles from '@keldor-ds/themes/src/bestday/styles/common/DateRangePicker'
 import { DatePickerProps } from './types'
@@ -14,20 +14,26 @@ import { combineStyles } from '../utils'
 
 const styles = combineStyles(defaultStyles, themeStyles)
 
-function DateRangePicker({
-  classes = {},
-  value,
-  onChange,
-  labelFunc,
-  format,
-  emptyLabel,
-  autoOk,
-  onOpen,
-  onClose,
-  open: openForward,
-  disablePast = false,
-  ...props
-}: DatePickerProps) {
+function DateRangePicker(
+  {
+    classes = {},
+    value,
+    onChange,
+    labelFunc,
+    format,
+    emptyLabel,
+    autoOk,
+    onOpen,
+    onClose,
+    open: openForward,
+    disablePast = false,
+    showBegin = true,
+    beginLabel = 'Begin:',
+    showEnd = true,
+    endLabel = 'End:',
+    ...props
+  }: DatePickerProps
+) {
   const [begin, setBegin] = useState<MaterialUiPickersDate>(value[0])
   const [end, setEnd] = useState<undefined | MaterialUiPickersDate>(value[1])
   const [prevBegin, setPrevBegin] = useState<undefined | MaterialUiPickersDate>(undefined)
@@ -139,19 +145,7 @@ function DateRangePicker({
     date ? utils.format(date as any, format || utils.dateFormat) : ''
   )
 
-  const TextFieldComponent = (
-    {
-      showBegin = true,
-      beginLabel = 'Begin:',
-      showEnd = true,
-      endLabel = 'End:'
-    }: {
-      showBegin?: boolean,
-      beginLabel?: string,
-      showEnd?: boolean,
-      endLabel?: string
-    }
-  ) => (
+  const TextFieldComponent = () => (
     <Box className={classes.textFieldsContainer}>
       { showBegin && (
         <div className={classes.textFieldBegin}>

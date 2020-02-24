@@ -99,14 +99,11 @@ export default (theme: Theme) => {
 
     textFieldsContainer: {
       display: 'flex',
-      flexDirection: 'row',
-      '& > div': {
-        margin: theme.spacing(1)
-      }
+      justifyContent: 'space-between'
     },
 
     textFieldBeginLabel: {
-      marginBottom: theme.spacing(0.5)
+      marginBottom: theme.spacing(1)
     },
 
     textFieldBeginInput: {
@@ -115,7 +112,7 @@ export default (theme: Theme) => {
     },
 
     textFieldEndLabel: {
-      marginBottom: theme.spacing(0.5)
+      marginBottom: theme.spacing(1)
     },
 
     textFieldEndInput: {

@@ -1,21 +1,9 @@
-export default interface StylesAPI {
-  /**
-   * Styles applied to the root element
-   */
-  root?: object
+import { CSSProperties } from '@material-ui/styles/withStyles'
 
-  /**
-   * Styles applied to the label element
-   */
-  label?: object
-
-  /**
-   * Styles applied to the input element
-   */
-  input?: object
-
-  /**
-   * Styles applied to the dialog element
-   */
-  dialog?: object
+interface StylesAPI {
+  root?: CSSProperties
+  label?: CSSProperties
+  input?: CSSProperties
 }
+
+export default StylesAPI
