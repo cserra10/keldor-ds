@@ -12,9 +12,9 @@ import themes from '@keldor-ds/themes/src/';
 // import './code-editor.css';
 
 const ThemeDecorator = (storyFn) => {
-  const [themeId, setThemeId] = useState('bestday');
+  const [themeId, setThemeId] = useState('despegar');
   const [LIVE_THEMES, SET_LIVE_THEMES] = useState({...themes});
-  const [theme, setTheme] = useState(createMuiTheme(themes[themeId]));
+  const [theme, setTheme] = useState(themes[themeId]);
   const [stringTheme, setStringTheme] = useState(JSON.stringify(themes.bestday, null, 2));
 
   const updateThemeId = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -42,18 +42,18 @@ const ThemeDecorator = (storyFn) => {
   return (
     <ThemeProvider theme={theme}>
       <>
-        {/*<FormControl style={{minWidth: 120}}>*/}
-        {/*  <InputLabel>Theme</InputLabel>*/}
-        {/*  <Select*/}
-        {/*    id="themeSelector"*/}
-        {/*    value={themeId}*/}
-        {/*    onChange={updateThemeId}*/}
-        {/*  >*/}
-        {/*    {Object.keys(themes).map(themeId => (*/}
-        {/*      <MenuItem key={themeId} value={themeId}>{themeId}</MenuItem>*/}
-        {/*    ))}*/}
-        {/*  </Select>*/}
-        {/*</FormControl>*/}
+        <FormControl style={{minWidth: 120}}>
+          <InputLabel>Theme</InputLabel>
+          <Select
+            id="themeSelector"
+            value={themeId}
+            onChange={updateThemeId}
+          >
+            {Object.keys(themes).map(themeId => (
+              <MenuItem key={themeId} value={themeId}>{themeId}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         {/* Theme live editor */}
         {/*<div className="container_editor_area">*/}

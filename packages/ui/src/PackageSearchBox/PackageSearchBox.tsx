@@ -12,11 +12,8 @@ import Rooms from '../Rooms'
 import DialogPlaceInput from '../DialogPlaceInput'
 import { Props, PackageFormType } from './types'
 import { PlaceType } from '../PlaceInput'
-import {RoomsFormType, RoomType} from '../Rooms/types'
-import { combineStyles } from '../utils'
-import { defaultStyles, themeStyles } from './styles'
-
-const combinedStyles = combineStyles(defaultStyles, themeStyles)
+import { RoomsFormType } from '../Rooms/types'
+import styles from './styles'
 
 const PackageSearchBox: React.FunctionComponent<Props> = (
   {
@@ -32,7 +29,8 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
       destination: undefined,
       dates: [],
       rooms: [{ adults: 1, children: 0, childrenAges: [] }]
-    }
+    },
+    theme
   }: Props
 ) => {
   const [form, setForm] = useState<PackageFormType>({
@@ -43,6 +41,7 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
     error: undefined
   })
 
+  console.log(theme)
   const { data, submitCount } = form
 
   useEffect(() => {
@@ -179,4 +178,4 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   )
 }
 
-export default memo(withStyles(combinedStyles)(PackageSearchBox))
+export default memo(withStyles(styles, {withTheme: true})(PackageSearchBox))

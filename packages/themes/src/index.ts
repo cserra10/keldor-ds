@@ -1,5 +1,7 @@
-import bestday from './bestday';
+import bestday from './bestday'
+import despegar from './despegar'
 
 export default {
-  bestday
-};
+  bestday,
+  despegar
+}

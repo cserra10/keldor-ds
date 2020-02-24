@@ -1,5 +1,6 @@
 import { CSSProperties } from '@material-ui/styles/withStyles'
 import { Theme, createStyles } from '@material-ui/core/styles'
+import {combineStyles, mergeDeep} from '../utils';
 
 export interface StylesAPI {
   /**
@@ -9,7 +10,7 @@ export interface StylesAPI {
   rooms: CSSProperties
 }
 
-export const defaultStyles = (theme: Theme) => {
+export default (theme: Theme) => {
   const styles = <StylesAPI> createStyles({
     root: {
       border: `1px solid ${theme.palette.grey.A100}`,
@@ -32,15 +33,6 @@ export const defaultStyles = (theme: Theme) => {
       padding: theme.spacing(1),
       border: `1px solid ${theme.palette.grey.A100}`,
       width: '100%'
-    }
-  })
-
-  return styles
-}
-
-export const themeStyles = (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
-    root: {
     }
   })
 
