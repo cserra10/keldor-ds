@@ -12,7 +12,6 @@ export function debounce(func: Function | Promise<any>, wait: number) {
       }
 
       timerId = window.setTimeout(
-        
         () => (func.then ? func.apply(this, args).then(resolve) : resolve(func.apply(this, args))),
         wait
       )

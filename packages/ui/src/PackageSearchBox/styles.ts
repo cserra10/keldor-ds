@@ -32,7 +32,8 @@ export default (theme: Theme) => {
       display: 'flex',
       padding: theme.spacing(1),
       border: `1px solid ${theme.palette.grey.A100}`,
-      width: '100%'
+      width: '100%',
+      backgroundColor: theme.palette.background.default
     }
   })
 

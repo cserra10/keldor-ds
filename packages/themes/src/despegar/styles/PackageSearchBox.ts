@@ -7,7 +7,7 @@ export default {
   submit: {
     height: 48,
     padding: '0 20px',
-    backgroundColor: '#FA503F',
+    // backgroundColor: '#FA503F',
     fontSize: 16,
     lineHeight: '48px',
     borderRadius: 24,
