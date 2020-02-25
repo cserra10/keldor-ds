@@ -1,4 +1,4 @@
-export default {
+export default theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -9,8 +9,15 @@ export default {
     width: '100%'
   },
 
+  originDestination: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+
   origin: {
-    width: '46%',
+    flex: 1,
+    marginRight: theme.spacing(2),
     '& input': {
       height: 120,
       textAlign: 'center'
@@ -18,7 +25,7 @@ export default {
   },
 
   destination: {
-    width: '46%',
+    flex: 1,
     '& input': {
       height: 120,
       textAlign: 'center'
@@ -30,7 +37,7 @@ export default {
   },
 
   submit: {
-    width: 347,
+    width: '100%',
     height: 56,
     background: '#0171C9',
     border: '1px solid #0171C9',
@@ -40,4 +47,4 @@ export default {
     fontSize: 16,
     fontWeight: 'bold'
   }
-}
+})

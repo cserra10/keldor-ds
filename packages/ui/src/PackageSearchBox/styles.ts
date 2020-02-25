@@ -44,5 +44,10 @@ export default (theme: Theme) => {
     }
   })
 
-  return mergeDeep(styles, theme.styles.PackageSearchBox || {})
+  let themeStyles = theme.styles.PackageSearchBox || {}
+  if (typeof themeStyles === 'function') {
+    themeStyles = themeStyles(theme)
+  }
+
+  return mergeDeep(styles, themeStyles)
 }

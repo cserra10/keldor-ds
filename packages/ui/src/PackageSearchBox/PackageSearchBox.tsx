@@ -105,20 +105,24 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
         {title}
       </Typography>
 
-      <DialogPlaceInput
-        className={classes.origin}
-        showLabel={false}
-        fetchPlaces={fetchPlaces}
-        onPlaceChange={(p: PlaceType) => updateFormData('origin', p)}
-      />
+      <div className={classes.originDestination}>
+        <DialogPlaceInput
+          className={classes.origin}
+          showLabel={false}
+          showStartAdornment={false}
+          fetchPlaces={fetchPlaces}
+          onPlaceChange={(p: PlaceType) => updateFormData('origin', p)}
+        />
 
-      <DialogPlaceInput
-        className={classes.destination}
-        showLabel={false}
-        fetchPlaces={fetchPlaces}
-        onPlaceChange={p => updateFormData('destination', p)}
-        placeholder="Tap to search"
-      />
+        <DialogPlaceInput
+          className={classes.destination}
+          showLabel={false}
+          showStartAdornment={false}
+          fetchPlaces={fetchPlaces}
+          onPlaceChange={p => updateFormData('destination', p)}
+          placeholder="Tap to search"
+        />
+      </div>
 
       <DateRangePicker
         className={classes.dates}
