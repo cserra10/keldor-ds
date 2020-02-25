@@ -9,19 +9,22 @@ import PlaceInput, { PlaceType } from '../PlaceInput'
 import { DialogPlaceInputProps } from './types'
 import styles from './styles'
 
-const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
-  className: classNameProp,
-  classes,
-  onPlaceChange,
-  placeholder = 'Tap to search',
-  label = 'Place:',
-  fetchPlaces,
-  value = null
-}: DialogPlaceInputProps) => {
+const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = (
+  {
+    className: classNameProp,
+    classes,
+    onPlaceChange,
+    placeholder = 'Tap to search',
+    label = 'Place:',
+    fetchPlaces,
+    value = null,
+    renderInput: renderInputProp,
+    showLabel = true,
+    showStartAdornment = true
+  }: DialogPlaceInputProps
+) => {
   const [place, setPlace] = useState<PlaceType | null>(value)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-
-  const className = clsx(classNameProp, classes.root)
 
   const closeDialog = () => setDialogOpen(false)
   const openDialog = () => setDialogOpen(true)
@@ -32,17 +35,30 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = ({
     closeDialog()
   }, [place])
 
+  const className = clsx(classNameProp, classes.root)
+
+  const renderInput = renderInputProp || (
+    (p: PlaceType) => (
+      <>
+        {showLabel && <InputLabel className={classes.label}>{label}</InputLabel>}
+        <InputBase
+          className={classes.input}
+          startAdornment={
+            showStartAdornment && <PlaceIcon className={classes.originInputStartAdornment} />
+          }
+          value={p ? p.Label : ''}
+          placeholder={placeholder}
+          onClick={openDialog}
+          readOnly
+        />
+      </>
+    )
+  )
+
   return (
     <div className={className}>
-      <InputLabel className={classes.label}>{label}</InputLabel>
-      <InputBase
-        className={classes.input}
-        startAdornment={<PlaceIcon className={classes.originInputStartAdornment} />}
-        value={place ? place.Label : ''}
-        placeholder={placeholder}
-        onClick={openDialog}
-        readOnly
-      />
+      {renderInput(place)}
+
       <Dialog
         fullScreen
         open={dialogOpen}

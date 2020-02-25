@@ -6,7 +6,15 @@ export interface StylesAPI {
    * Styles applied to the root element
    */
   root?: CSSProperties
+
+  /**
+   * Styles applied to the rooms control
+   */
   rooms?: CSSProperties
+
+  /**
+   * Styles applied to the submit button
+   */
   submit?: CSSProperties
 }
 
@@ -32,8 +40,7 @@ export default (theme: Theme) => {
       display: 'flex',
       padding: theme.spacing(1),
       border: `1px solid ${theme.palette.grey.A100}`,
-      width: '100%',
-      backgroundColor: theme.palette.background.default
+      width: '100%'
     }
   })
 

@@ -1,6 +1,32 @@
 export default {
   root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
 
+  title: {
+    width: '100%'
+  },
+
+  origin: {
+    width: '46%',
+    '& input': {
+      height: 120,
+      textAlign: 'center'
+    }
+  },
+
+  destination: {
+    width: '46%',
+    '& input': {
+      height: 120,
+      textAlign: 'center'
+    }
+  },
+
+  dates: {
+    width: '100%'
   },
 
   submit: {

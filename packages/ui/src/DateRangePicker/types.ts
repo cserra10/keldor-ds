@@ -1,6 +1,7 @@
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
 
 export type DatePickerProps = {
+  className?: string
   classes?: Record<string, string>
   value: Array<MaterialUiPickersDate>
   onChange: (dates: { begin: MaterialUiPickersDate, end: MaterialUiPickersDate }) => void
@@ -12,8 +13,8 @@ export type DatePickerProps = {
   onClose?: () => void
   open?: boolean,
   disablePast?: boolean
-  showBegin?: boolean
-  beginLabel?: string
-  showEnd?: boolean
-  endLabel?: string
+  label?: string
+  placeholder?: string
+  renderInput?: () => JSX.Element
+  showLabel?: boolean
 }

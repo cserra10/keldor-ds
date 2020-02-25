@@ -1,5 +1,8 @@
-import { PlaceInputProps } from '../PlaceInput/types'
+import { PlaceInputProps, PlaceType } from '../PlaceInput'
 
 export type DialogPlaceInputProps = PlaceInputProps & {
-  label?: string
+  label?: string,
+  renderInput?: (p: PlaceType) => JSX.Element
+  showLabel?: boolean
+  showStartAdornment?: boolean
 }

@@ -6,6 +6,9 @@ export interface StylesAPI {
    * Styles applied to the root element
    */
   root?: CSSProperties
+  label?: CSSProperties
+  input?: CSSProperties
+  originInputStartAdornment?: CSSProperties
 }
 
 export default (theme: Theme) => {

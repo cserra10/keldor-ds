@@ -1,17 +1,17 @@
-// NOTE: This code is supposed to be included in next version of @material-ui/pickers
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { DatePicker, useUtils } from '@material-ui/pickers'
 import clsx from 'clsx'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
-import Box from '@material-ui/core/Box'
+import DateRangeIcon from '@material-ui/icons/DateRange'
 import { withStyles } from '@keldor-ds/themes/build'
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
 import { DatePickerProps } from './types'
 import styles from './styles'
 
-function DateRangePicker(
+const DateRangePicker = (
   {
+    className: classNameProp,
     classes = {},
     value,
     onChange,
@@ -23,13 +23,13 @@ function DateRangePicker(
     onClose,
     open: openForward,
     disablePast = false,
-    showBegin = true,
-    beginLabel = 'Begin:',
-    showEnd = true,
-    endLabel = 'End:',
+    label = 'Dates',
+    placeholder = 'From - To',
+    showLabel = true,
+    renderInput: renderInputProp,
     ...props
   }: DatePickerProps
-) {
+) => {
   const [begin, setBegin] = useState<MaterialUiPickersDate>(value[0])
   const [end, setEnd] = useState<undefined | MaterialUiPickersDate>(value[1])
   const [prevBegin, setPrevBegin] = useState<undefined | MaterialUiPickersDate>(undefined)
@@ -141,29 +141,22 @@ function DateRangePicker(
     date ? utils.format(date as any, format || utils.dateFormat) : ''
   )
 
-  const TextFieldComponent = () => (
-    <Box className={classes.textFieldsContainer}>
-      { showBegin && (
-        <div className={classes.textFieldBegin}>
-          <InputLabel className={classes.textFieldBeginLabel}>{beginLabel}</InputLabel>
-          <InputBase
-            className={classes.textFieldBeginInput}
-            onFocus={() => setOpen(true)}
-            value={formatDate(begin)}
-          />
-        </div>
-      )}
-      { showEnd && (
-        <div className={classes.textFieldEnd}>
-          <InputLabel className={classes.textFieldEndLabel}>{endLabel}</InputLabel>
-          <InputBase
-            className={classes.textFieldEndInput}
-            onFocus={() => setOpen(true)}
-            value={formatDate(end)}
-          />
-        </div>
-      )}
-    </Box>
+  const className = clsx(classNameProp, classes.inputContainer)
+  const renderInput = renderInputProp || (
+    (from: MaterialUiPickersDate, to: MaterialUiPickersDate) => (
+      <div className={className}>
+        {showLabel && (
+          <InputLabel className={classes.inputLabel}>{label}</InputLabel>
+        )}
+        <InputBase
+          className={classes.input}
+          onFocus={() => setOpen(true)}
+          value={from && to ? `${formatDate(from)} ${formatDate(to)}` : ''}
+          placeholder={placeholder}
+          startAdornment={<DateRangeIcon />}
+        />
+      </div>
+    )
   )
 
   return (
@@ -206,7 +199,7 @@ function DateRangePicker(
       }}
       onChange={() => {}}
       DialogProps={{ className: classes.dateRangePickerDialog }}
-      TextFieldComponent={TextFieldComponent as React.FC}
+      TextFieldComponent={() => renderInput(begin, end)}
       views={['year', 'month', 'date']}
       animateYearScrolling
       disablePast={disablePast}
@@ -214,5 +207,4 @@ function DateRangePicker(
   )
 }
 
-
-export default withStyles(styles)(DateRangePicker)
+export default memo(withStyles(styles)(DateRangePicker))

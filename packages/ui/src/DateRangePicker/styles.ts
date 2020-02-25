@@ -1,11 +1,11 @@
-import { Theme, fade } from '@keldor-ds/themes/build'
+import { Theme, fade, createStyles } from '@keldor-ds/themes/build'
 
 export default (theme: Theme) => {
   const focusedRangeColor = fade(theme.palette.primary.main, 0.3)
   const focusedRangeGradient = `linear-gradient(to right, ${focusedRangeColor}, ${focusedRangeColor})`
   const transparentRangeGradient = 'linear-gradient(to right, rgba(0,0,0,0.0), rgba(0,0,0,0.0))'
 
-  return {
+  const styles = createStyles({
     dateRangePickerDialog: {
       '& .MuiPickersCalendar-transitionContainer': {
         minHeight: 218,
@@ -96,27 +96,20 @@ export default (theme: Theme) => {
       background: `${focusedRangeGradient} no-repeat 0/20px 40px,${transparentRangeGradient} no-repeat 20px 0/20px 40px`
     },
 
-    textFieldsContainer: {
+    inputContainer: {
       display: 'flex',
-      justifyContent: 'space-between'
+      flexDirection: 'column'
     },
 
-    textFieldBeginLabel: {
+    inputLabel: {
       marginBottom: theme.spacing(1)
     },
 
-    textFieldBeginInput: {
-      border: `1px solid ${theme.palette.grey.A100}`,
-      padding: 5
-    },
-
-    textFieldEndLabel: {
-      marginBottom: theme.spacing(1)
-    },
-
-    textFieldEndInput: {
+    input: {
       border: `1px solid ${theme.palette.grey.A100}`,
       padding: 5
     }
-  }
+  })
+
+  return styles
 }

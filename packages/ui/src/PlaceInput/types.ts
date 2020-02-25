@@ -9,7 +9,7 @@ export type PlaceInputProps = {
   /**
    * classNames to customize the component. See CSS API
    */
-  classes?: any
+  classes?: Record<string, string>
 
   language?: string
 

@@ -29,8 +29,7 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
       destination: undefined,
       dates: [],
       rooms: [{ adults: 1, children: 0, childrenAges: [] }]
-    },
-    theme
+    }
   }: Props
 ) => {
   const [form, setForm] = useState<PackageFormType>({
@@ -40,31 +39,12 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
     submitCount: 0,
     error: undefined
   })
+  const [roomDialogOpen, setRoomDialogOpen] = useState(false)
+
+  const openRoomsDialog = () => setRoomDialogOpen(true)
+  const closeRoomsDialog = () => setRoomDialogOpen(false)
+
   const { data, submitCount } = form
-
-  useEffect(() => {
-    if (onChange) onChange(form.data)
-  }, [form.data])
-
-  const initialDialogsState = {
-    origin: false,
-    destination: false,
-    dates: false,
-    rooms: false
-  }
-
-  const [Dialogs, setDialogs] = useState(initialDialogsState)
-
-  const className = clsx(classNameProp, classes.root)
-
-  const openRoomsDialog = (e: React.MouseEvent) => {
-    setDialogs(prevState => ({
-      ...prevState,
-      rooms: true
-    }))
-  }
-
-  const closeDialogs = () => setDialogs({ ...initialDialogsState })
 
   const updateFormData = (formDataKey: string, value: any) => {
     setForm(prevState => ({
@@ -80,7 +60,7 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
     if (!roomsForm.error) {
       const rooms = roomsForm.rooms.map(room => room.paxes)
       updateFormData('rooms', rooms)
-      closeDialogs()
+      closeRoomsDialog()
     }
   }
 
@@ -95,10 +75,26 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   }
 
   useEffect(() => {
+    if (onChange) onChange(form.data)
+  }, [form.data])
+
+  useEffect(() => {
     if (onSubmit && submitCount > 0) {
       onSubmit(form)
     }
   }, [submitCount])
+
+  const className = clsx(classNameProp, classes.root)
+
+  const adults = data.rooms.reduce(
+    (acc, room) => (acc + room.adults),
+    0
+  )
+
+  const children = data.rooms.reduce(
+    (acc, room) => (acc + room.children),
+    0
+  )
 
   return (
     <div className={className}>
@@ -110,20 +106,25 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
       </Typography>
 
       <DialogPlaceInput
-        label="Origin: "
+        className={classes.origin}
+        showLabel={false}
         fetchPlaces={fetchPlaces}
         onPlaceChange={(p: PlaceType) => updateFormData('origin', p)}
       />
 
       <DialogPlaceInput
-        label="Destination: "
+        className={classes.destination}
+        showLabel={false}
         fetchPlaces={fetchPlaces}
         onPlaceChange={p => updateFormData('destination', p)}
+        placeholder="Tap to search"
       />
 
       <DateRangePicker
-        beginLabel="Departure: "
-        endLabel="Return: "
+        className={classes.dates}
+        showLabel={false}
+        label="Dates: "
+        placeholder="From - To"
         value={form.data.dates || []}
         onChange={dates => updateFormData('dates', dates)}
       />
@@ -139,23 +140,17 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
 
         <div>
           <Person />
-          {data.rooms.reduce(
-            (acc, room) => (acc + room.adults),
-            0
-          )}
+          {adults}
         </div>
 
         <div>
           <Person />
-          {data.rooms.reduce(
-            (acc, room) => (acc + room.children),
-            0
-          )}
+          {children}
         </div>
 
         <Dialog
-          open={Dialogs.rooms}
-          onClose={closeDialogs}
+          open={roomDialogOpen}
+          onClose={closeRoomsDialog}
           fullScreen
           transitionDuration={0}
         >
@@ -176,4 +171,5 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   )
 }
 
+// @ts-ignore
 export default memo(withStyles(styles)(PackageSearchBox))
