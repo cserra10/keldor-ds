@@ -23,6 +23,7 @@ export {
 }
 
 export default {
+  blank: { styles: {} },
   bestday,
   despegar
 }

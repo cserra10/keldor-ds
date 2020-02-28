@@ -1,31 +1,29 @@
 import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { combineStyles } from '../utils'
 
-export interface StylesAPI {
-  /**
-   * Styles applied to the root element
-   */
-  root?: CSSProperties
-
-  /**
-   * Styles applied to the rooms control
-   */
-  rooms?: CSSProperties
-
-  /**
-   * Styles applied to the submit button
-   */
-  submit?: CSSProperties
+export type StylesAPI = {
+  root: CSSProperties
+  title: CSSProperties
+  originDestination: CSSProperties
+  origin: CSSProperties
+  destination: CSSProperties
+  dates: CSSProperties
+  rooms: CSSProperties
+  submit: CSSProperties
 }
 
 export default (theme: Theme) => {
-  const styles = <StylesAPI>createStyles({
+  const styles = createStyles({
     root: {
       border: `1px solid ${theme.palette.grey.A100}`,
       padding: theme.spacing(1),
       '& > *': {
         marginBottom: theme.spacing(2)
       }
+    },
+
+    origin: {
+      marginBottom: theme.spacing(2)
     },
 
     rooms: {
@@ -39,15 +37,15 @@ export default (theme: Theme) => {
     submit: {
       display: 'flex',
       padding: theme.spacing(1),
-      border: `1px solid ${theme.palette.grey.A100}`,
       width: '100%'
     }
-  })
+  }) as StylesAPI
 
-  let themeStyles = theme.styles.PackageSearchBox || {}
-  if (typeof themeStyles === 'function') {
-    themeStyles = themeStyles(theme)
+  const themeStyles = theme.styles.PackageSearchBox || {}
+  const combinedStyles = combineStyles(styles, themeStyles)
+  if (typeof combinedStyles === 'function') {
+    return combinedStyles(theme)
   }
 
-  return mergeDeep(styles, themeStyles)
+  return combinedStyles
 }

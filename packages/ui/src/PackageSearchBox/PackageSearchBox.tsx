@@ -1,6 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import shortid from 'shortid'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
 import Person from '@material-ui/icons/Person'
@@ -98,25 +100,27 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
 
   return (
     <div className={className}>
-      <Typography
+      <AppBar
         className={classes.title}
-        variant="subtitle1"
+        position="relative"
       >
-        {title}
-      </Typography>
+        <Toolbar>
+          <Typography variant="h6">{title}</Typography>
+        </Toolbar>
+      </AppBar>
 
       <div className={classes.originDestination}>
         <DialogPlaceInput
+          label="Origin: "
           className={classes.origin}
-          showLabel={false}
           showStartAdornment={false}
           fetchPlaces={fetchPlaces}
           onPlaceChange={(p: PlaceType) => updateFormData('origin', p)}
         />
 
         <DialogPlaceInput
+          label="Destination: "
           className={classes.destination}
-          showLabel={false}
           showStartAdornment={false}
           fetchPlaces={fetchPlaces}
           onPlaceChange={p => updateFormData('destination', p)}
@@ -126,7 +130,6 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
 
       <DateRangePicker
         className={classes.dates}
-        showLabel={false}
         label="Dates: "
         placeholder="From - To"
         value={form.data.dates || []}
@@ -175,5 +178,4 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   )
 }
 
-// @ts-ignore
 export default memo(withStyles(styles)(PackageSearchBox))
