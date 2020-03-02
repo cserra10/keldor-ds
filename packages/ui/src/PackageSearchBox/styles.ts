@@ -14,6 +14,7 @@ export type StylesAPI = {
 }
 
 export default (theme: Theme) => {
+  console.log(theme)
   const styles = createStyles({
     root: {
       position: 'relative',
@@ -21,7 +22,8 @@ export default (theme: Theme) => {
     },
 
     header: {
-      marginBottom: theme.spacing(2)
+      marginBottom: theme.spacing(2),
+      boxShadow: 'inherit'
     },
 
     main: {

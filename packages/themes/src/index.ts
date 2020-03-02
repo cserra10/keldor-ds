@@ -5,6 +5,7 @@ import { CSSProperties } from '@material-ui/styles/withStyles'
 import { withStyles } from '@material-ui/styles'
 import createTheme from './createTheme'
 
+import blank from './blank'
 import bestday from './bestday'
 import despegar from './despegar'
 
@@ -23,7 +24,7 @@ export {
 }
 
 export default {
-  blank: { styles: {} },
+  blank,
   bestday,
   despegar
 }

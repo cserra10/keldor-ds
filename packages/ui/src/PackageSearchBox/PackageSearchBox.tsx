@@ -77,6 +77,7 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
       <AppBar
         className={classes.header}
         position="relative"
+        color="transparent"
       >
         <Toolbar>
           <Typography variant="h6">{title}</Typography>
