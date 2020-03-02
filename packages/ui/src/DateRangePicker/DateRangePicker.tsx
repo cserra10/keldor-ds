@@ -151,7 +151,7 @@ const DateRangePicker = (
         <InputBase
           className={classes.input}
           onFocus={() => setOpen(true)}
-          value={from && to ? `${formatDate(from)} ${formatDate(to)}` : ''}
+          value={from && to ? `${formatDate(from)} - ${formatDate(to)}` : ''}
           placeholder={placeholder}
           startAdornment={<DateRangeIcon />}
         />

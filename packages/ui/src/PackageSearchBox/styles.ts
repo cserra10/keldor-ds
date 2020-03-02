@@ -3,7 +3,8 @@ import { combineStyles } from '../utils'
 
 export type StylesAPI = {
   root: CSSProperties
-  title: CSSProperties
+  header: CSSProperties
+  main: CSSProperties
   originDestination: CSSProperties
   origin: CSSProperties
   destination: CSSProperties
@@ -15,8 +16,17 @@ export type StylesAPI = {
 export default (theme: Theme) => {
   const styles = createStyles({
     root: {
-      border: `1px solid ${theme.palette.grey.A100}`,
-      padding: theme.spacing(1),
+      position: 'relative',
+      border: `1px solid ${theme.palette.grey.A100}`
+    },
+
+    header: {
+      marginBottom: theme.spacing(2)
+    },
+
+    main: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
       '& > *': {
         marginBottom: theme.spacing(2)
       }
@@ -27,15 +37,10 @@ export default (theme: Theme) => {
     },
 
     rooms: {
-      display: 'flex',
-      width: '100%',
-      padding: theme.spacing(1),
-      border: `1px solid ${theme.palette.grey.A100}`,
-      justifyContent: 'space-evenly'
+      width: '100%'
     },
 
     submit: {
-      display: 'flex',
       padding: theme.spacing(1),
       width: '100%'
     }
