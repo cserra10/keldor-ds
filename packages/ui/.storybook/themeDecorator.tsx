@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import themes, { createTheme, ThemeProvider } from '@keldor-ds/themes/build'
 
-const defaultTheme = 'blank'
+const defaultTheme = localStorage.getItem('themeId') || 'blank'
 
 const ThemeDecorator = (storyFn) => {
   const [themeId, setThemeId] = useState(defaultTheme);
@@ -15,6 +15,7 @@ const ThemeDecorator = (storyFn) => {
 
   const updateThemeId = (event: React.ChangeEvent<{ value: unknown }>) => {
     const selectedTheme = event.target.value
+    localStorage.setItem('themeId', selectedTheme)
     setThemeId(selectedTheme);
     setTheme(createTheme(themes[selectedTheme]))
   };

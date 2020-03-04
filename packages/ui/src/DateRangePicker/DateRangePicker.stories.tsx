@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { withInfo } from '@storybook/addon-info'
+import React from 'react'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { action } from '@storybook/addon-actions'
@@ -15,16 +14,11 @@ export default {
   ]
 }
 
-export const Default = () => {
-  return (
-    <DateRangePicker
-      value={[]}
-      onChange={action('on change')}
-      disablePast
-      format="dd/MM/yyyy"
-      classes={{
-        textFieldsContainer: 'foo'
-      }}
-    />
-  )
-}
+export const Default = () => (
+  <DateRangePicker
+    value={[]}
+    onChange={action('on change')}
+    disablePast
+    format="dd/MM/yyyy"
+  />
+)

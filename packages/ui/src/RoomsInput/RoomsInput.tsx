@@ -60,17 +60,17 @@ const RoomsInput = (
       >
         <div>
           <Hotel />
-          {rooms.length}
+          {`${rooms.length} Rooms` }
         </div>
 
         <div>
           <Person />
-          {adults}
+          {`${adults} Adults` }
         </div>
 
         <div>
           <Person />
-          {children}
+          {`${children} Children` }
         </div>
 
         <Dialog

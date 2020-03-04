@@ -103,11 +103,6 @@ export default (theme: Theme) => {
 
     inputLabel: {
       marginBottom: theme.spacing(1)
-    },
-
-    input: {
-      border: `1px solid ${theme.palette.grey.A100}`,
-      padding: 5
     }
   })
 

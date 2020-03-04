@@ -1,8 +1,20 @@
+import blueGrey from '@material-ui/core/colors/blueGrey'
 import styles from './styles'
 
-const borderRadius = 4
+const shape = {
+  borderRadius: 4
+}
+const palette = {
+  primary: {
+    main: '#0171C9',
+    dark: '#003A8C',
+    light: '#D3EEFC'
+  }
+}
+
 
 export default {
+  palette,
   props: {
     MuiButtonBase: {
       disableRipple: true
@@ -12,20 +24,36 @@ export default {
   overrides: {
     MuiInputBase: {
       root: {
-        borderRadius
+        height: 56,
+        fontSize: 16,
+        borderRadius: shape.borderRadius,
+        padding: '5px 10px',
+        border: `1px solid ${blueGrey.A100}`,
+        '& > svg:first-child': {
+          marginRight: 5,
+          color: palette.primary.main
+        },
+        '& input': {
+          padding: '5px 10px'
+        }
       }
     },
 
     MuiButtonBase: {
       root: {
-        borderRadius
+        height: 56,
+        borderRadius: shape.borderRadius,
+        padding: '5px 10px',
+        border: `1px solid ${blueGrey.A100}`,
+        fontSize: 16,
+        '& svg': {
+          color: palette.primary.main
+        }
       }
     }
   },
 
-  shape: {
-    borderRadius
-  },
+  shape,
 
   // Styles for all components goes here
   styles

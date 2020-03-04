@@ -19,9 +19,11 @@ export default (theme: Theme) => {
     control: {
       display: 'flex',
       width: '100%',
-      padding: theme.spacing(1),
-      border: `1px solid ${theme.palette.grey.A100}`,
-      justifyContent: 'space-evenly'
+      justifyContent: 'space-evenly',
+      '& > div': {
+        display: 'flex',
+        alignItems: 'center'
+      }
     }
   }) as StylesAPI
 

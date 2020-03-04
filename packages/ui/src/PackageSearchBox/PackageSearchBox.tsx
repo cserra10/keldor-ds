@@ -4,12 +4,12 @@ import shortid from 'shortid'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import ButtonBase from '@material-ui/core/ButtonBase'
+import SwapHoriz from '@material-ui/icons/SwapHoriz'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@keldor-ds/themes/build'
 import DateRangePicker from '../DateRangePicker/DateRangePicker'
 import DialogPlaceInput from '../DialogPlaceInput'
 import { Props, PackageFormType } from './types'
-import { PlaceType } from '../PlaceInput'
 import styles from './styles'
 import RoomsInput from '../RoomsInput'
 
@@ -60,6 +60,22 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
     }))
   }
 
+  const toggleOriginDestination = () => {
+    setForm(prevState => {
+      const origin = { ...prevState.data.destination }
+      const destination = { ...prevState.data.origin }
+
+      return {
+        ...prevState,
+        data: {
+          ...prevState.data,
+          origin,
+          destination
+        }
+      }
+    })
+  }
+
   useEffect(() => {
     if (onChange) onChange(form.data)
   }, [form.data])
@@ -92,6 +108,13 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
             showStartAdornment={false}
             fetchPlaces={fetchPlaces}
             onPlaceChange={p => updateFormData('origin', p)}
+            classes={{ label: classes.originLabel, input: classes.originInput }}
+            value={data.origin}
+          />
+
+          <SwapHoriz
+            className={classes.toggleOriginDestination}
+            onClick={toggleOriginDestination}
           />
 
           <DialogPlaceInput
@@ -101,6 +124,8 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
             fetchPlaces={fetchPlaces}
             onPlaceChange={p => updateFormData('destination', p)}
             placeholder="Tap to search"
+            classes={{ label: classes.destinationLabel, input: classes.destinationInput }}
+            value={data.destination}
           />
         </div>
 

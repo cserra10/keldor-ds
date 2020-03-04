@@ -1,10 +1,6 @@
-import { Theme } from '../..'
-
-export default (theme : Theme) => ({
+export default theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
+
   },
 
   header: {
@@ -12,36 +8,50 @@ export default (theme : Theme) => ({
   },
 
   main: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+
   },
 
   originDestination: {
     display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%'
+    position: 'relative'
+  },
+
+  toggleOriginDestination: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 20,
+    margin: 'auto'
   },
 
   origin: {
-    '& label': {
-      display: 'none'
-    },
     flex: 1,
-    marginBottom: 0,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
+  },
+
+  originLabel: {
+    display: 'none'
+  },
+
+  originInput: {
+    height: 120,
     '& input': {
-      height: 120,
       textAlign: 'center'
     }
   },
 
   destination: {
-    '& label': {
-      display: 'none'
-    },
-    flex: 1,
+    flex: 1
+  },
+
+  destinationLabel: {
+    display: 'none'
+  },
+
+  destinationInput: {
+    height: 120,
     '& input': {
-      height: 120,
       textAlign: 'center'
     }
   },

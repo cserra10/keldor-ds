@@ -30,6 +30,7 @@
     "typescript-require": "^0.2.10"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
     "@material-ui/styles": "^4.9.0",
     "shortid": "^2.2.15"
   }

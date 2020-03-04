@@ -6,8 +6,13 @@ export type StylesAPI = {
   header: CSSProperties
   main: CSSProperties
   originDestination: CSSProperties
+  toggleOriginDestination: CSSProperties
   origin: CSSProperties
+  originLabel: CSSProperties
+  originInput: CSSProperties
   destination: CSSProperties
+  destinationLabel: CSSProperties
+  destinationInput: CSSProperties
   dates: CSSProperties
   rooms: CSSProperties
   submit: CSSProperties
@@ -18,33 +23,35 @@ export default (theme: Theme) => {
   const styles = createStyles({
     root: {
       position: 'relative',
-      border: `1px solid ${theme.palette.grey.A100}`
+      border: `1px solid ${theme.palette.grey.A100}`,
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between'
     },
 
     header: {
-      marginBottom: theme.spacing(2),
       boxShadow: 'inherit'
     },
 
     main: {
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      '& > *': {
-        marginBottom: theme.spacing(2)
-      }
+      padding: theme.spacing(2)
     },
 
     origin: {
       marginBottom: theme.spacing(2)
     },
 
-    rooms: {
-      width: '100%'
+    destination: {
+      marginBottom: theme.spacing(2)
+    },
+
+    dates: {
+      marginBottom: theme.spacing(2)
     },
 
     submit: {
-      padding: theme.spacing(1),
-      width: '100%'
+      padding: theme.spacing(1)
     }
   }) as StylesAPI
 
