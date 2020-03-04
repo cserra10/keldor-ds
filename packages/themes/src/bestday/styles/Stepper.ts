@@ -2,7 +2,7 @@ export default theme => ({
   root: {
     border: 'unset',
     height: 40,
-    width: 100
+    width: 140
   },
 
   input: {

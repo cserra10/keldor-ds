@@ -157,13 +157,15 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
             }}
           />
 
-          <ButtonBase
-            className={classes.deleteRoomButton}
-            data-index={index}
-            onClick={() => deleteRoom(index)}
-          >
-            Remove room
-          </ButtonBase>
+          { index >= minRooms && (
+            <ButtonBase
+              className={classes.deleteRoomButton}
+              data-index={index}
+              onClick={() => deleteRoom(index)}
+            >
+              Remove room
+            </ButtonBase>
+          )}
         </div>
       ))}
 
