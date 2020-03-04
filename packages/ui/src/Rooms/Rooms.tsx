@@ -30,6 +30,7 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
     className: classNameProp,
     classes = {},
     title = 'Rooms',
+    minRooms = 1,
     maxRooms = 4,
     PaxesProps,
     onChange,
@@ -140,16 +141,20 @@ const Rooms: React.FunctionComponent<RoomsProps> = (
       {rooms.map((room, index: number) => (
         <div
           key={`room_${room.id}`}
-          className={classes.paxesContainer}
+          className={classes.room}
         >
           <Paxes
+            className={classes.paxes}
             id={`paxesForm_${room.id}`}
-            title={`Room ${index + 1} ${room.id}`}
+            title={`Room ${index + 1}`}
             onSubmit={paxesForm => updatePaxesInRoom(paxesForm.paxes, index)}
             autoSubmit
             showError={false}
             showSubmit={false}
             initialData={room.paxes}
+            classes={{
+              title: classes.roomTitle
+            }}
           />
 
           <ButtonBase

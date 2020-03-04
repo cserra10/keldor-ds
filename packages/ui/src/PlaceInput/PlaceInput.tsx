@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import clsx from 'clsx'
 import CloseIcon from '@material-ui/icons/Close'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
@@ -23,12 +23,10 @@ const PlaceInput: React.FC<PlaceInputProps> = (
     autoFocus = false,
     labelProperty = 'Label',
     groupBy = 'Type',
-    value = null,
     onCancel
   }: PlaceInputProps
 ) => {
   const [places, setPlaces] = React.useState<PlaceType[]>([])
-  const [place, setPlace] = React.useState<PlaceType>(value)
   const [loading, setLoading] = React.useState<boolean>(false)
 
   const handleInputChange = async (_: React.ChangeEvent<{}>, searchText: string) => {
@@ -45,13 +43,9 @@ const PlaceInput: React.FC<PlaceInputProps> = (
     }
   }
 
-  const handleChange = (_: React.ChangeEvent<{}>, p: PlaceType) => {
-    setPlace(p)
-  }
-
-  useEffect(() => {
+  const handleChange = (_: React.ChangeEvent<{}>, place: PlaceType) => {
     onPlaceChange(place)
-  }, [place])
+  }
 
   const {
     getRootProps,

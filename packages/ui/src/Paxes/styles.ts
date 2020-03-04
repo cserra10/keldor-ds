@@ -1,7 +1,7 @@
 import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
 import { mergeDeep } from '../utils'
 
-export interface StylesAPI {
+export type StylesAPI = {
   /**
    * Styles applied to the root element
    */
@@ -49,7 +49,7 @@ export interface StylesAPI {
 }
 
 export default (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
+  const styles = createStyles({
     root: {
       '& > *': {
         marginBottom: theme.spacing(2),
@@ -67,15 +67,14 @@ export default (theme: Theme) => {
     },
 
     inputControl: {
-      width: 150,
-      border: `1px solid ${theme.palette.grey.A100}`
+      width: 150
     },
 
     ageSelect: {
       textAlign: 'center',
       margin: '0!important'
     }
-  })
+  }) as StylesAPI
 
   return mergeDeep(styles, theme.styles.Paxes || {})
 }

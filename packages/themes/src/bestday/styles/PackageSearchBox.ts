@@ -1,10 +1,10 @@
 export default theme => ({
   root: {
-
+    border: 'none'
   },
 
   header: {
-    boxShadow: theme.shadows[1]
+    boxShadow: theme.shadows[0]
   },
 
   main: {
@@ -13,21 +13,25 @@ export default theme => ({
 
   originDestination: {
     display: 'flex',
-    position: 'relative'
+    flexDirection: 'row',
+    position: 'relative',
+    marginBottom: theme.spacing(2)
   },
 
   toggleOriginDestination: {
+    zIndex: 10,
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 20,
-    margin: 'auto'
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%,-50%)',
+    height: 'fit-content',
+    backgroundColor: theme.palette.background.default
   },
 
   origin: {
     flex: 1,
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    marginBottom: 0
   },
 
   originLabel: {
@@ -42,7 +46,8 @@ export default theme => ({
   },
 
   destination: {
-    flex: 1
+    flex: 1,
+    marginBottom: 0
   },
 
   destinationLabel: {

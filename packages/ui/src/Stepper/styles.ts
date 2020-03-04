@@ -1,5 +1,5 @@
 import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { combineStyles } from '../utils'
 
 export interface StylesAPI {
   /**
@@ -31,9 +31,22 @@ export default (theme: Theme) => {
         textAlign: 'center'
       },
       borderRight: `1px solid ${theme.palette.grey.A100}`,
-      borderLeft: `1px solid ${theme.palette.grey.A100}`
+      borderLeft: `1px solid ${theme.palette.grey.A100}`,
+      border: 'none',
+      boxShadow: 'none',
+      borderRadius: 0
+    },
+
+    increaseButton: {
+      border: 'none'
+    },
+
+    decreaseButton: {
+      border: 'none'
     }
   })
 
-  return mergeDeep(styles, theme.styles.Stepper || {})
+  console.log(theme.styles.Stepper)
+
+  return combineStyles(styles, theme.styles.Stepper || {})(theme)
 }

@@ -61,19 +61,14 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
   }
 
   const toggleOriginDestination = () => {
-    setForm(prevState => {
-      const origin = { ...prevState.data.destination }
-      const destination = { ...prevState.data.origin }
-
-      return {
-        ...prevState,
-        data: {
-          ...prevState.data,
-          origin,
-          destination
-        }
+    setForm(prevState => ({
+      ...prevState,
+      data: {
+        ...prevState.data,
+        origin: prevState.data.destination,
+        destination: prevState.data.origin
       }
-    })
+    }))
   }
 
   useEffect(() => {
@@ -112,10 +107,12 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
             value={data.origin}
           />
 
-          <SwapHoriz
+          <ButtonBase
             className={classes.toggleOriginDestination}
             onClick={toggleOriginDestination}
-          />
+          >
+            <SwapHoriz />
+          </ButtonBase>
 
           <DialogPlaceInput
             label="Destination: "

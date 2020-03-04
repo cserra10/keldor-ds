@@ -23,19 +23,16 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = (
     showStartAdornment = true
   }: DialogPlaceInputProps
 ) => {
-  const [place, setPlace] = useState<PlaceType | null>(value)
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-
   const closeDialog = () => setDialogOpen(false)
   const openDialog = () => setDialogOpen(true)
-  const handlePlaceChange = (p: PlaceType) => setPlace(p)
-
-  useEffect(() => {
-    onPlaceChange(place)
-    closeDialog()
-  }, [place])
 
   const className = clsx(classNameProp, classes.root)
+
+  const handlePlaceChange = (p: PlaceType) => {
+    onPlaceChange(p)
+    closeDialog()
+  }
 
   const renderInput = renderInputProp || (
     (p: PlaceType) => (
@@ -57,7 +54,7 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = (
 
   return (
     <div className={className}>
-      {renderInput(place)}
+      {renderInput(value)}
 
       <Dialog
         fullScreen
@@ -70,7 +67,6 @@ const DialogPlaceInput: React.FunctionComponent<DialogPlaceInputProps> = (
           fetchPlaces={fetchPlaces}
           onPlaceChange={handlePlaceChange}
           autoFocus
-          value={place}
           onCancel={closeDialog}
         />
       </Dialog>

@@ -19,7 +19,6 @@ export type StylesAPI = {
 }
 
 export default (theme: Theme) => {
-  console.log(theme)
   const styles = createStyles({
     root: {
       position: 'relative',
@@ -38,8 +37,18 @@ export default (theme: Theme) => {
       padding: theme.spacing(2)
     },
 
+    originDestination: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+
     origin: {
       marginBottom: theme.spacing(2)
+    },
+
+    toggleOriginDestination: {
+      marginBottom: theme.spacing(2),
+      alignSelf: 'center'
     },
 
     destination: {

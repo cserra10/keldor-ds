@@ -18,6 +18,7 @@ export type RoomsProps = {
   className?: string
   classes?: Record<string, string>
   title?: string
+  minRooms?: number
   maxRooms?: number
   PaxesProps?: PaxesProps
   onChange?: (rooms: RoomType[]) => void
