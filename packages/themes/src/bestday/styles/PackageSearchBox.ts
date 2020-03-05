@@ -1,5 +1,3 @@
-import shadows from '@material-ui/core/styles/shadows';
-
 export default theme => ({
   root: {
     border: 'none'

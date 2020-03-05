@@ -1,8 +1,9 @@
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
 
-export type DatePickerProps = {
+export interface Props extends WithStyles<typeof styles> {
   className?: string
-  classes?: Record<string, string>
   value: Array<MaterialUiPickersDate>
   onChange: (dates: { begin: MaterialUiPickersDate, end: MaterialUiPickersDate }) => void
   labelFunc?: any

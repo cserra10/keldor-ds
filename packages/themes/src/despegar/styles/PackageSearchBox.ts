@@ -1,5 +1,3 @@
-import blueGrey from '@material-ui/core/colors/blueGrey';
-
 export default theme => ({
   root: {
     border: 'unset',

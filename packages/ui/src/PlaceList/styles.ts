@@ -1,15 +1,19 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
+import { combineStyles } from '../utils'
 
 export interface StylesAPI {
   /**
    * Styles applied to the root element
    */
   root?: CSSProperties
+  placeGroup?: CSSProperties
+  placeHeader?: CSSProperties
+  place?: CSSProperties
+  placeIcon?: CSSProperties
 }
 
 export default (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
+  const defaultStyles = createStyles({
     root: {
 
     },
@@ -34,7 +38,7 @@ export default (theme: Theme) => {
     placeIcon: {
       marginRight: 5
     }
-  })
+  }) as StylesAPI
 
-  return mergeDeep(styles, theme.styles.PlaceList || {})
+  return combineStyles(defaultStyles, theme.styles.PlaceList || {})(theme)
 }

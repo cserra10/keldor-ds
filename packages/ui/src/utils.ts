@@ -1,9 +1,5 @@
 // @ts-nocheck
-import * as Moment from 'moment'
-import { extendMoment } from 'moment-range'
-
 let timerId: number = 0
-
 export function debounce(func: Function | Promise<any>, wait: number) {
   return function debouncedFunction(...args: Array<any>) {
     return new Promise(resolve => {
@@ -17,10 +13,6 @@ export function debounce(func: Function | Promise<any>, wait: number) {
       )
     })
   }
-}
-
-export function momentRange() {
-  return extendMoment(Moment)
 }
 
 export function groupBy<T, K>(list: T[], getKey: (item: T) => K) {
@@ -85,4 +77,3 @@ export function mergeDeep(...objects) {
     return prev;
   }, {});
 }
-

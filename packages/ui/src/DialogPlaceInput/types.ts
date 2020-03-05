@@ -1,6 +1,6 @@
 import { PlaceInputProps, PlaceType } from '../PlaceInput'
 
-export type DialogPlaceInputProps = PlaceInputProps & {
+export interface DialogPlaceInputProps extends PlaceInputProps {
   label?: string,
   renderInput?: (p: PlaceType) => JSX.Element
   showLabel?: boolean

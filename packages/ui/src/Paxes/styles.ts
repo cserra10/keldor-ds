@@ -1,5 +1,5 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
+import { combineStyles } from '../utils'
 
 export type StylesAPI = {
   /**
@@ -76,5 +76,5 @@ export default (theme: Theme) => {
     }
   }) as StylesAPI
 
-  return mergeDeep(styles, theme.styles.Paxes || {})
+  return combineStyles(styles, theme.styles.Paxes || {})(theme)
 }

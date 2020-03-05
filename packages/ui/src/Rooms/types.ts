@@ -1,3 +1,5 @@
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
 import { PaxesProps, PaxesFormType, PaxesType } from '../Paxes/types'
 
 export type RoomType = {
@@ -13,10 +15,9 @@ export type RoomsFormType = {
   submitCount?: number
 }
 
-export type RoomsProps = {
+export interface RoomsProps extends WithStyles<typeof styles> {
   id?: string
   className?: string
-  classes?: Record<string, string>
   title?: string
   minRooms?: number
   maxRooms?: number

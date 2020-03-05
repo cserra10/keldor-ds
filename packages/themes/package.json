@@ -1,6 +1,7 @@
 {
   "name": "@keldor-ds/themes",
-  "version": "1.0.0",
+  "version": "1.0.9",
+  "main": "./build/index.js",
   "description": "Themes, assets and stylesheets that powers the look and feel of bdtg applications",
   "keywords": [
     "themes",
@@ -8,8 +9,8 @@
     "assets",
     "colors"
   ],
-  "author": "BDTG / B2C / keldor theme",
-  "homepage": "https://bestdayit.visualstudio.com/SellingPlatform/_git/keldor-ds/themes",
+  "author": "BDTG / B2C / keldor-ds team",
+  "homepage": "https://bestdayit.visualstudio.com/SellingPlatform/_git/keldor-ds",
   "license": "ISC",
   "repository": {
     "type": "git",
@@ -18,20 +19,13 @@
   "scripts": {
     "tsc": "tsc --declaration --outDir build",
     "build": "yarn tsc",
-    "copyfiles": "copyfiles package.json build",
-    "release": "yarn build && yarn copyfiles && npm publish build --tag latest --registry http://localhost:4873"
+    "release": "yarn build && npm publish --tag latest --registry https://bestdayit.pkgs.visualstudio.com/SellingPlatform/_packaging/bestdaynpm/npm/registry/"
   },
   "devDependencies": {
-    "cross-env": "^7.0.0",
-    "fs-extra": "^8.1.0",
-    "jss": "^10.0.4",
-    "jss-preset-default": "^10.0.4",
-    "typescript": "^3.7.5",
-    "typescript-require": "^0.2.10"
+    "typescript": "^3.7.5"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@material-ui/core": "^4.9.5",
-    "@material-ui/styles": "^4.9.0",
-    "shortid": "^2.2.15"
+    "@material-ui/styles": "^4.9.0"
   }
 }

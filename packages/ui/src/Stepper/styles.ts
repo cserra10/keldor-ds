@@ -1,18 +1,15 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
 import { combineStyles } from '../utils'
 
-export interface StylesAPI {
-  /**
-   * Styles applied to the root element
-   */
-  root?: CSSProperties
+export type StylesAPI = {
+  root: CSSProperties
   increaseButton: CSSProperties
   input: CSSProperties
   decreaseButton: CSSProperties
 }
 
 export default (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
+  const defaultStyles = createStyles({
     root: {
       width: 'fit-content',
       minHeight: 30,
@@ -44,9 +41,7 @@ export default (theme: Theme) => {
     decreaseButton: {
       border: 'none'
     }
-  })
+  }) as StylesAPI
 
-  console.log(theme.styles.Stepper)
-
-  return combineStyles(styles, theme.styles.Stepper || {})(theme)
+  return combineStyles(defaultStyles, theme.styles.Stepper || {})(theme)
 }

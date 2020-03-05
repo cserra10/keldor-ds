@@ -1,8 +1,10 @@
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
+
 export type PlaceType = null | Record<string, string>
 
-export type PlaceListProps = {
+export interface PlaceListProps extends WithStyles<typeof styles> {
   className?: string
-  classes?: Record<string, string>
   optionProps: Function
   places: PlaceType[]
   showHeader?: boolean
@@ -10,4 +12,3 @@ export type PlaceListProps = {
   labelProperty?: string
   groupBy?: string
 }
-

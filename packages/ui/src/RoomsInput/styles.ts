@@ -1,4 +1,5 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
+import { combineStyles } from '../utils'
 
 export type StylesAPI = {
   root: CSSProperties
@@ -7,7 +8,7 @@ export type StylesAPI = {
 }
 
 export default (theme: Theme) => {
-  const styles = createStyles({
+  const defaultStyles = createStyles({
     root: {
 
     },
@@ -27,5 +28,5 @@ export default (theme: Theme) => {
     }
   }) as StylesAPI
 
-  return styles
+  return combineStyles(defaultStyles, theme.styles.RoomsInput || {})(theme)
 }

@@ -1,11 +1,11 @@
-import { WithStyles } from '@material-ui/core'
-import { StylesAPI } from './styles'
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
 import { PaxesType } from '../Paxes'
 
-export type Props = {
+export interface Props extends WithStyles<typeof styles> {
   className?: string
   label?: string
   showLabel?: boolean
   rooms: PaxesType[],
   onChange: (data: any) => void
-} & WithStyles<StylesAPI>
+}

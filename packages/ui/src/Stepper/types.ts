@@ -1,6 +1,8 @@
-export type StepperProps = {
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
+
+export interface Props extends WithStyles<typeof styles> {
   className?: string
-  classes?: Record<string, string>
   label?: string
   value?: number
   minValue?: number

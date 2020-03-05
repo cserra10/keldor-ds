@@ -1,8 +1,8 @@
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
-import { WithStyles } from '@material-ui/core'
+import { WithStyles } from '@keldor-ds/themes'
 import { PlaceType } from '../PlaceInput'
 import { PaxesType } from '../Paxes'
-import { StylesAPI } from './styles'
+import styles from './styles'
 
 export type PackageDataType = {
   origin?: undefined | PlaceType
@@ -19,7 +19,7 @@ export type PackageFormType = {
   submitCount?: number
 }
 
-export type Props = {
+export interface Props extends WithStyles<typeof styles> {
   id?: string
   className?: string
   title?: string
@@ -27,4 +27,4 @@ export type Props = {
   onSubmit?: (form: PackageFormType) => void
   fetchPlaces: (searchText: string) => Promise<any>
   initialData?: PackageDataType
-} & WithStyles<StylesAPI>
+}

@@ -5,14 +5,14 @@ import Box from '@material-ui/core/Box'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import RemoveIcon from '@material-ui/icons/Remove'
 import AddIcon from '@material-ui/icons/Add'
-import { withStyles } from '@material-ui/core'
-import { StepperProps } from './types'
+import { withStyles } from '@keldor-ds/themes'
+import { Props } from './types'
 import styles from './styles'
 
-const Stepper: React.FunctionComponent<StepperProps> = (props: StepperProps) => {
+const Stepper: React.FunctionComponent<Props> = (props: Props) => {
   const {
     className: classNameProp,
-    classes = {},
+    classes,
     value: valueProp = 0,
     minValue = 0,
     maxValue = 100,

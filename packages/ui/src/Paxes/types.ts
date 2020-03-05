@@ -1,3 +1,6 @@
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
+
 export type PaxesType = {
   adults: number
   children: number
@@ -12,10 +15,9 @@ export type PaxesFormType = {
   submitCount?: number
 }
 
-export type PaxesProps = {
+export interface PaxesProps extends WithStyles<typeof styles> {
   id?: string
   className?: string
-  classes?: Record<string, string>
   title?: string
   adults?: number
   children?: number

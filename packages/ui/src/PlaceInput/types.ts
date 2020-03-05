@@ -1,15 +1,13 @@
+import { WithStyles } from '@keldor-ds/themes'
+import styles from './styles'
+
 export type PlaceType = null | Record<string, string>
 
-export type PlaceInputProps = {
+export interface PlaceInputProps extends WithStyles<typeof styles> {
   /**
    * className applied to the root element
    */
   className?: string
-
-  /**
-   * classNames to customize the component. See CSS API
-   */
-  classes?: Record<string, string>
 
   language?: string
 

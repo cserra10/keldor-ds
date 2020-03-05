@@ -1,5 +1,5 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
+import { combineStyles } from '../utils'
 
 export interface StylesAPI {
   /**
@@ -27,5 +27,5 @@ export default (theme: Theme) => {
     }
   })
 
-  return mergeDeep(styles, theme.styles.DialogPlaceInput || {})
+  return combineStyles(styles, theme.styles.DialogPlaceInput || {})(theme)
 }

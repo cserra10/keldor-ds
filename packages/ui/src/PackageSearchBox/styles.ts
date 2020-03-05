@@ -1,4 +1,4 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
 import { combineStyles } from '../utils'
 
 export type StylesAPI = {
@@ -67,11 +67,5 @@ export default (theme: Theme) => {
     }
   }) as StylesAPI
 
-  const themeStyles = theme.styles.PackageSearchBox || {}
-  const combinedStyles = combineStyles(styles, themeStyles)
-  if (typeof combinedStyles === 'function') {
-    return combinedStyles(theme)
-  }
-
-  return combinedStyles
+  return combineStyles(styles, theme.styles.PackageSearchBox || {})(theme)
 }

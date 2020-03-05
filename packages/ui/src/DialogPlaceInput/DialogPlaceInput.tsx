@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'

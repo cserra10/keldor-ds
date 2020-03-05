@@ -1,4 +1,4 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
 import { combineStyles } from '../utils'
 
 export type StylesAPI = {
@@ -15,7 +15,7 @@ export type StylesAPI = {
 }
 
 export default (theme: Theme) => {
-  const styles = createStyles({
+  const defaultStyles = createStyles({
     root: {
       border: `1px solid ${theme.palette.grey.A200}`,
       padding: theme.spacing(2),
@@ -52,13 +52,7 @@ export default (theme: Theme) => {
     okButton: {
 
     }
-  })
+  }) as StylesAPI
 
-  const themeStyles = theme.styles.Rooms || {}
-  const combinedStyles = combineStyles(styles, themeStyles)
-  if (typeof combinedStyles === 'function') {
-    return combinedStyles(theme)
-  }
-
-  return combinedStyles
+  return combineStyles(defaultStyles, theme.styles.Rooms || {})(theme)
 }

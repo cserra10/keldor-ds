@@ -4,9 +4,9 @@ import clsx from 'clsx'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
 import DateRangeIcon from '@material-ui/icons/DateRange'
-import { withStyles } from '@keldor-ds/themes/build'
+import { withStyles } from '@keldor-ds/themes'
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date'
-import { DatePickerProps } from './types'
+import { Props } from './types'
 import styles from './styles'
 
 const DateRangePicker = (
@@ -28,7 +28,7 @@ const DateRangePicker = (
     showLabel = true,
     renderInput: renderInputProp,
     ...props
-  }: DatePickerProps
+  }: Props
 ) => {
   const [begin, setBegin] = useState<MaterialUiPickersDate>(value[0])
   const [end, setEnd] = useState<undefined | MaterialUiPickersDate>(value[1])

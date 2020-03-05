@@ -6,7 +6,7 @@ import React, {
 } from 'react'
 import shortid from 'shortid'
 import clsx from 'clsx'
-import { withStyles } from '@keldor-ds/themes/build'
+import { withStyles } from '@keldor-ds/themes'
 import Typography from '@material-ui/core/Typography'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import { RoomsProps, RoomsFormType, RoomType } from './types'

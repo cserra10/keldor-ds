@@ -1,15 +1,17 @@
-import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes/build'
-import { mergeDeep } from '../utils'
+import { Theme, createStyles, CSSProperties } from '@keldor-ds/themes'
+import { combineStyles } from '../utils'
 
 export interface StylesAPI {
-  /**
-   * Styles applied to the root element
-   */
   root?: CSSProperties
+  input?: CSSProperties
+  inputStartAdornment?: CSSProperties
+  inputEndAdornment?: CSSProperties
+  cancel?: CSSProperties
+  placeList?: CSSProperties
 }
 
 export default (theme: Theme) => {
-  const styles = <StylesAPI> createStyles({
+  const defaultStyles = createStyles({
     root: {
       display: 'flex',
       flexDirection: 'column'
@@ -34,13 +36,12 @@ export default (theme: Theme) => {
       border: `1px solid ${theme.palette.grey.A100}`,
       alignSelf: 'flex-end',
       width: 'fitContent'
-
-},
+    },
 
     placeList: {
       border: '1px solid #e7e7e7'
     }
-  })
+  }) as StylesAPI
 
-  return mergeDeep(styles, theme.styles.PlaceInput || {})
+  return combineStyles(defaultStyles, theme.styles.PlaceInput || {})(theme)
 }
