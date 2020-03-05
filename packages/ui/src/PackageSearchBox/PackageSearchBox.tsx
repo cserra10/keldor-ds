@@ -132,12 +132,19 @@ const PackageSearchBox: React.FunctionComponent<Props> = (
           placeholder="From - To"
           value={form.data.dates || []}
           onChange={dates => updateFormData('dates', dates)}
+          classes={{
+            inputLabel: classes.datesLabel
+          }}
         />
 
         <RoomsInput
           className={classes.rooms}
           rooms={data.rooms}
           onChange={rooms => updateFormData('rooms', rooms)}
+          classes={{
+            label: classes.roomsLabel,
+            control: classes.roomsControl
+          }}
         />
       </div>
 

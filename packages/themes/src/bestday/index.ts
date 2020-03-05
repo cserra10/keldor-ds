@@ -1,3 +1,4 @@
+import shadows from '@material-ui/core/styles/shadows'
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import styles from './styles'
 
@@ -11,7 +12,6 @@ const palette = {
     light: '#D3EEFC'
   }
 }
-
 
 export default {
   palette,
@@ -27,6 +27,7 @@ export default {
         height: 56,
         fontSize: 16,
         borderRadius: shape.borderRadius,
+        boxShadow: shadows[1],
         padding: '5px 10px',
         border: `1px solid ${blueGrey.A100}`,
         '& > svg:first-child': {

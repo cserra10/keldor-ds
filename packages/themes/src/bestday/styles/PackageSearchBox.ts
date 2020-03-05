@@ -1,3 +1,5 @@
+import shadows from '@material-ui/core/styles/shadows';
+
 export default theme => ({
   root: {
     border: 'none'
@@ -69,6 +71,7 @@ export default theme => ({
   },
 
   rooms: {
+    boxShadow: theme.shadows[1],
     '& label': {
       display: 'none'
     }
@@ -83,6 +86,7 @@ export default theme => ({
     border: '1px solid #0171C9',
     boxSizing: 'border-box',
     borderRadius: theme.shape.borderRadius,
+    boxShadow: theme.shadows[1],
     color: theme.palette.common.white,
     fontSize: 16,
     fontWeight: 'bold'

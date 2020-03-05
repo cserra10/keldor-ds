@@ -23,8 +23,7 @@ export default (theme: Theme) => {
     },
 
     input: {
-      padding: 5,
-      border: `1px solid ${theme.palette.grey.A100}`
+
     }
   })
 

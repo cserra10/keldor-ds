@@ -14,7 +14,10 @@ export type StylesAPI = {
   destinationLabel: CSSProperties
   destinationInput: CSSProperties
   dates: CSSProperties
+  datesLabel: CSSProperties
   rooms: CSSProperties
+  roomsLabel: CSSProperties
+  roomsControl: CSSProperties
   submit: CSSProperties
 }
 
